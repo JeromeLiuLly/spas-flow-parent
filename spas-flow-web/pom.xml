@@ -5,7 +5,8 @@
     <parent>
         <artifactId>spas-flow-parent</artifactId>
         <groupId>com.candao.spas</groupId>
-        <version>0.0.1</version>
+        <version>${reversion}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

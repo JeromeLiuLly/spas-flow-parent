@@ -11,7 +11,7 @@
 
     <properties>
         <!-- 指定编译版本和编码 -->
-        <revision>0.0.1</revision>
+        <revision>0.0.2</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
