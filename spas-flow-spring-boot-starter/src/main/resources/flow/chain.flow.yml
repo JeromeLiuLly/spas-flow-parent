@@ -1,0 +1,43 @@
+flowId: chain
+flowName: demoChain
+desc: 可视化业务编排
+startNodeId: chain01
+nodes:
+  - node:
+      nodeId: chain01
+      nodeName: beginInvoke
+      desc: 开始节点
+      nodeType: begin
+      front: root
+      next: conditionChain
+  - node:
+      nodeId: conditionChain
+      nodeName: conditionByAge
+      desc: 条件节点执行
+      nodeType: condition
+      component: age<20:chain02
+      front: chain01
+  - node:
+      nodeId: chain02
+      nodeName: beanInvoke
+      desc: 单节点执行
+      input: Student
+      nodeType: bean
+      component: nodeChainImpl
+      front: chain01
+      next: subFlowNode1
+  - node:
+      nodeId: subFlowNode1
+      nodeName: subFlowNode1
+      desc: 子流程节点
+      input: Student
+      nodeType: subflow
+      component: subflowChain
+      front: chain02
+      next: chain03
+  - node:
+      nodeId: chain03
+      nodeName: endInvoke
+      desc: 结束节点
+      nodeType: end
+      front: chain02
