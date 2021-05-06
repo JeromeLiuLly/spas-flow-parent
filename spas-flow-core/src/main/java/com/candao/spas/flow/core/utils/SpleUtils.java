@@ -34,6 +34,7 @@ public final class SpleUtils {
         StandardEvaluationContext context = new StandardEvaluationContext(contextValue);
         //配置MapAccessor,支持map格式获取
         context.addPropertyAccessor(new MapAccessor());
+
         return getInstance().parser.parseExpression(expr).getValue(context);
     }
 

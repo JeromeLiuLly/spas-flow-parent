@@ -16,6 +16,9 @@
         <module>spas-flow-sdk</module>
         <module>spas-flow-web</module>
         <module>spas-flow-spring-boot-starter</module>
+        <module>spas-flow-sample-dubbo</module>
+        <module>spas-flow-sample-http</module>
+        <module>spas-flow-sample-dubbo-api</module>
     </modules>
 
     <properties>
@@ -26,6 +29,10 @@
         <java.version>1.8</java.version>
         <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+        <dubbo.version>2.7.7</dubbo.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
+        <dubbo-spring-boot-starter.version>2.7.7</dubbo-spring-boot-starter.version>
+        <curator-recipes.version>4.0.1</curator-recipes.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +63,50 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
         </dependencies>

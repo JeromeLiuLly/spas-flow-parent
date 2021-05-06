@@ -9,15 +9,17 @@ import lombok.Getter;
 @Getter
 public enum EventParserEnum {
 
-    HTTP("http","http事件类型"),
+    BEAN("bean","bean事件模型"),
 
     NATIVE("native","native事件类型,本地调用"),
 
-    DUBBO("dubbo","dubbo事件类型"),
+    HTTP("http","http事件类型"),
 
-    THRIFT("thrift","thrift事件类型"),
+    DUBBO("dubboSOA","dubbo事件类型"),
 
     QRPC("gRPC","gRPC事件类型"),
+
+    THRIFT("thrift","thrift事件类型"),
 
     SOCKET("socket","socket事件类型");
 
@@ -27,6 +29,16 @@ public enum EventParserEnum {
     EventParserEnum(String value,String desc){
         this.value = value;
         this.desc = desc;
+    }
+
+    public static EventParserEnum getEventInfo(String value) {
+        EventParserEnum[] values = EventParserEnum.values();
+        for (EventParserEnum eventParserEnum : values) {
+            if (eventParserEnum.getValue().equals(value)) {
+                return eventParserEnum;
+            }
+        }
+        return null;
     }
 
 }

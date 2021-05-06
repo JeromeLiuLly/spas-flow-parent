@@ -1,13 +1,14 @@
 package com.candao.spas.flow.core.model.resp;
 
+import com.candao.spas.flow.core.model.context.DistributedContext;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class ResponseFlowDataVo<T> implements Serializable {
 
@@ -48,6 +49,7 @@ public class ResponseFlowDataVo<T> implements Serializable {
     private T data;
 
     public ResponseFlowDataVo() {
+        this.logId = DistributedContext.getContext().getLogId();
         this.serverTime = System.currentTimeMillis();
     }
 
@@ -184,7 +186,7 @@ public class ResponseFlowDataVo<T> implements Serializable {
     public static ResponseFlowDataVo generateFailException() {
         ResponseFlowDataVo responseData = new ResponseFlowDataVo();
         responseData.setResponseStatus(ResponseFlowStatus.FAIL);
-        responseData.setMsg("服务器异常，请将logId反馈给技术人员");
+        responseData.setMsg("【logId=" + DistributedContext.getContext().getLogId() + "】服务器异常，请将logId反馈给技术人员");
         return responseData;
     }
 

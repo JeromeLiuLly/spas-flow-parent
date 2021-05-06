@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@ToString
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor

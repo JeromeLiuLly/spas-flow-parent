@@ -21,20 +21,10 @@ nodes:
       nodeId: chain02
       nodeName: beanInvoke
       desc: 单节点执行
-      input: Student
       nodeType: bean
       component: nodeChainImpl
       front: chain01
       next: subFlowNode1
-  - node:
-      nodeId: subFlowNode1
-      nodeName: subFlowNode1
-      desc: 子流程节点
-      input: Student
-      nodeType: subflow
-      component: subflowChain
-      front: chain02
-      next: chain03
   - node:
       nodeId: chain03
       nodeName: endInvoke

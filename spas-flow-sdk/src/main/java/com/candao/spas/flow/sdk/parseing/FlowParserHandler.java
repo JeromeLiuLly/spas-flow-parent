@@ -37,13 +37,15 @@ public class FlowParserHandler {
 
     /**
      * 执行流程节点
+     *
+     * @param flowId 工作流Id
      * @param node 节点信息
      * @param requestDataVo 输出参数
      * @param nodeMap 节点集合
      * @param responseDataVo 输出参数
      * @return 输出参数
      */
-    public void execNode(Node node, Object requestDataVo, Map<String, Node> nodeMap, ResponseFlowDataVo responseDataVo){
+    public void execNode(String flowId, Node node, Object requestDataVo, Map<String, Node> nodeMap, ResponseFlowDataVo responseDataVo){
         // 获取节点类型
         String type = node.getNodeType();
 
@@ -53,59 +55,59 @@ public class FlowParserHandler {
 
         try {
             // 执行 handle函数
-            doHandle(node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
+            doHandle(flowId,node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
 
             Boolean isSuccess = status(responseDataVo);
 
             if (isSuccess) {
-                doSuccess(node, requestDataVo, responseDataVo, nodeInstance);
+                doSuccess(flowId,node, requestDataVo, responseDataVo, nodeInstance);
             } else {
-                doFail(node, requestDataVo, responseDataVo, nodeInstance);
-                doRollback(node,requestDataVo,responseDataVo,nodeInstance);
+                doFail(flowId,node, requestDataVo, responseDataVo, nodeInstance);
+                doRollback(flowId,node,requestDataVo,responseDataVo,nodeInstance);
             }
         } catch (Exception e){
             e.printStackTrace();
         }finally {
             try {
-                doComplate(node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
+                doComplate(flowId,node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    private void doHandle(Node node,Object requestDataVo,Map<String, Node> nodeMap,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
-        log.info("doHandle:[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doHandleNum.addAndGet(1)+"次执行");
+    private void doHandle(String flowId, Node node,Object requestDataVo,Map<String, Node> nodeMap,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
+        log.info("doHandle:[工作流节点名称:"+flowId+"]_[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doHandleNum.addAndGet(1)+"次执行");
 
-        doTask(node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.HANDLE);
+        doTask(flowId,node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.HANDLE);
         Boolean isSuccess = status(responseDataVo);
 
         if (isSuccess) {
             // TODO output ==> input
-            requestDataVo = responseDataVo.getData();
+            //requestDataVo = responseDataVo.getData();
             String nextNode = node.getNext();
             // 断言下一个节点不为空
             if (!StringUtils.isEmpty(nextNode)) {
                 Node nodeNext = nodeMap.get(nextNode);
-                execNode(nodeNext, requestDataVo, nodeMap, responseDataVo);
+                execNode(flowId,nodeNext, requestDataVo, nodeMap, responseDataVo);
             }
         }
     }
 
     // 同步执行
-    private void execSyn(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,int retryTime, int sleep,MethodParserEnum methodParserEnum,boolean isSetResultCode) {
+    private void execSyn(String flowId,Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,int retryTime, int sleep,MethodParserEnum methodParserEnum,boolean isSetResultCode) {
 
         // 断言,执行节点是否为子流程工作流
         if (node.getNodeType().equals(NodeParserEnum.SUBFLOW.getValue())){
-            nodeInstance.parserNode(node, requestDataVo,responseDataVo, methodParserEnum);
+            nodeInstance.parserNode(flowId,node, requestDataVo,responseDataVo, methodParserEnum);
         }else{
             Integer oldCode = responseDataVo.getStatus();
             int doNum = 1;
             for (int retryTimeindex  = 0; retryTimeindex <= retryTime; retryTimeindex++) {
                 try{
-                    nodeInstance.parserNode(node, requestDataVo,responseDataVo, methodParserEnum);
+                    nodeInstance.parserNode(flowId,node, requestDataVo,responseDataVo, methodParserEnum);
                     break;
-                }catch (Exception e){
+                }catch (RuntimeException e){
                     e.printStackTrace();
                     if (retryTimeindex == 0) {
                         log.error(e.getMessage());
@@ -117,7 +119,7 @@ public class FlowParserHandler {
                             responseDataVo.setStatus(ResponseFlowStatus.SUCCESS_BREAK.getStatus());
                         }
                     }
-                    responseDataVo.setMsg("system error occor:"+e.getMessage());
+                    responseDataVo.setMsg("system error occor:");
                     if (retryTimeindex <= retryTime - 1) {
                         responseDataVo.setStatus(oldCode);
                     }
@@ -135,15 +137,15 @@ public class FlowParserHandler {
     }
 
     // 异步执行
-    private void execASyn(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,int retryTime, int sleep,MethodParserEnum methodParserEnum,boolean isSetResultCode) {
+    private void execASyn(String flowId,Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,int retryTime, int sleep,MethodParserEnum methodParserEnum,boolean isSetResultCode) {
 
         ThreadHolder threadHolder = ThreadLocalHolder.getThreadHolder();
         try {
             AsynExcutor asynExcutor;
             if (node.getNodeType().equals(NodeParserEnum.SUBFLOW.getValue())){
-                asynExcutor = new AsynExcutor(node,requestDataVo, responseDataVo, nodeInstance, 0, sleep, methodParserEnum, threadHolder);
+                asynExcutor = new AsynExcutor(flowId,node,requestDataVo, responseDataVo, nodeInstance, 0, sleep, methodParserEnum, threadHolder);
             }else{
-                asynExcutor = new AsynExcutor(node,requestDataVo, responseDataVo, nodeInstance, retryTime, sleep, methodParserEnum, threadHolder);
+                asynExcutor = new AsynExcutor(flowId,node,requestDataVo, responseDataVo, nodeInstance, retryTime, sleep, methodParserEnum, threadHolder);
             }
             Thread thread = new Thread(asynExcutor);
             thread.start();
@@ -158,44 +160,44 @@ public class FlowParserHandler {
         }
     }
 
-    private void doSuccess(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
+    private void doSuccess(String flowId, Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
         if (NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
             return;
         }
-        log.info("doSuccess:[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doSuccessNum.addAndGet(1)+"次执行");
-        doTask(node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.SUCCESS);
+        log.info("doSuccess:[工作流节点名称:"+flowId+"]_[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doSuccessNum.addAndGet(1)+"次执行");
+        doTask(flowId,node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.SUCCESS);
     }
 
-    private void doComplate(Node node,Object requestDataVo,Map<String, Node> nodeMap,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
+    private void doComplate(String flowId, Node node,Object requestDataVo,Map<String, Node> nodeMap,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
         if (NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
             return;
         }
-        log.info("doComplate:[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doComplateNum.addAndGet(1)+"次执行");
-        doTask(node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.COMPLATE);
+        log.info("doComplate:[工作流节点名称:"+flowId+"]_[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doComplateNum.addAndGet(1)+"次执行");
+        doTask(flowId,node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.COMPLATE);
     }
 
-    private void doFail(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
+    private void doFail(String flowId, Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
         if (NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
             return;
         }
-        log.info("doFail:[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doFailNum.addAndGet(1)+"次执行");
-        doTask(node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.FAIL);
+        log.info("doFail:[工作流节点名称:"+flowId+"]_[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],第"+doFailNum.addAndGet(1)+"次执行");
+        doTask(flowId,node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.FAIL);
     }
 
-    private void doRollback(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
+    private void doRollback(String flowId, Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance){
         if (NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
             return;
         }
-        log.info("doRollback:[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],,第"+doRollBackkNum.addAndGet(1)+"次执行");
-        doTask(node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.ROLLBACK);
+        log.info("doRollback:[工作流节点名称:"+flowId+"]_[节点名称:"+node.getNodeId()+"]_[节点描述:"+node.getDesc()+"]_[节点类型:"+node.getNodeType()+"],,第"+doRollBackkNum.addAndGet(1)+"次执行");
+        doTask(flowId, node,requestDataVo,responseDataVo,nodeInstance,MethodParserEnum.ROLLBACK);
     }
 
-    private void doTask(Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,MethodParserEnum methodParserEnum){
+    private void doTask(String flowId, Node node,Object requestDataVo,ResponseFlowDataVo responseDataVo,NodeParser nodeInstance,MethodParserEnum methodParserEnum){
         Boolean isAysn = node.getAsyn();
         if (isAysn){
-            execASyn(node, requestDataVo, responseDataVo, nodeInstance, node.getRetryTime(), node.getSleep(), methodParserEnum, false);
+            execASyn(flowId,node, requestDataVo, responseDataVo, nodeInstance, node.getRetryTime(), node.getSleep(), methodParserEnum, false);
         } else {
-            execSyn(node, requestDataVo, responseDataVo, nodeInstance, node.getRetryTime(), node.getSleep(), methodParserEnum, false);
+            execSyn(flowId,node, requestDataVo, responseDataVo, nodeInstance, node.getRetryTime(), node.getSleep(), methodParserEnum, false);
         }
     }
 

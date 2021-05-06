@@ -21,6 +21,15 @@
         <easyjson.version>3.0.0</easyjson.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <aviator.version>5.2.5</aviator.version>
+        <qlexpress.version>3.2.4</qlexpress.version>
+        <convert.version>0.0.1</convert.version>
+        <httpclient.version>4.5.6</httpclient.version>
+        <httpmime.version>4.5.3</httpmime.version>
+        <httpcore.version>4.4.4</httpcore.version>
+        <dubbo.version>2.7.7</dubbo.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
+        <dubbo-spring-boot-starter.version>2.7.7</dubbo-spring-boot-starter.version>
+        <curator-recipes.version>4.0.1</curator-recipes.version>
     </properties>
 
 
@@ -29,6 +38,24 @@
             <dependency>
                 <groupId>com.candao.spas</groupId>
                 <artifactId>spas-flow-sample</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.candao.spas</groupId>
+                <artifactId>spas-flow-sample-http</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.candao.spas</groupId>
+                <artifactId>spas-flow-sample-dubbo</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.candao.spas</groupId>
+                <artifactId>spas-flow-sample-dubbo-api</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -136,7 +163,45 @@
                 <artifactId>aviator</artifactId>
                 <version>${aviator.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>QLExpress</artifactId>
+                <version>${qlexpress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.candao.spas</groupId>
+                <artifactId>spas-convert-sdk</artifactId>
+                <version>${convert.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${httpmime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator-recipes.version}</version>
+            </dependency>
+
+            <!-- Dubbo Spring Boot Starter -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo-spring-boot-starter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

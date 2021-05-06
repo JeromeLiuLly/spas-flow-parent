@@ -22,10 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class AsynExcutor implements Callable<ResponseFlowDataVo>, Runnable {
 
 
-	public AsynExcutor(Node node, Object requestDataVo, ResponseFlowDataVo responseDataVo, NodeParser nodeInstance, int retryTime, int sleep, MethodParserEnum methodParserEnum, ThreadHolder threadHolder) {
+	public AsynExcutor(String flowId,Node node, Object requestDataVo, ResponseFlowDataVo responseDataVo, NodeParser nodeInstance, int retryTime, int sleep, MethodParserEnum methodParserEnum, ThreadHolder threadHolder) {
 		super();
 		setParam(requestDataVo);
 		setResponseDataVo(responseDataVo);
+		setFlowId(flowId);
 		setRetryTime(retryTime);
 		setSleep(sleep);
 		setThreadHolder(threadHolder);
@@ -37,6 +38,7 @@ public class AsynExcutor implements Callable<ResponseFlowDataVo>, Runnable {
 	private Object requestDataVo;
 	private ResponseFlowDataVo responseDataVo;
 	private String methodName;
+	private String flowId;
 	private int retryTime;
 	private int sleep;
 	private ThreadHolder threadHolder;
@@ -75,7 +77,7 @@ public class AsynExcutor implements Callable<ResponseFlowDataVo>, Runnable {
 			Integer oldResultCode = responseDataVo.getStatus();
 
 			try {
-				nodeInstance.parserNode(node, requestDataVo,responseDataVo, methodParserEnum);
+				nodeInstance.parserNode(flowId,node, requestDataVo,responseDataVo, methodParserEnum);
 				break;
 			} catch (Exception e) {
 				log.error(e.getMessage());

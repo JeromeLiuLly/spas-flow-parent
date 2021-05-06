@@ -11,15 +11,50 @@ import java.util.List;
  * */
 @Getter
 public enum NodeParserEnum {
+
+    /**
+     * 根节点,表识符
+     *
+     *
+     * */
+    ROOT("root","根节点"),
+
+    /**
+     * 开始节点不进入以下方法
+     * 
+     * @method success
+     * @method complate
+     * @method fail
+     * @method rollback
+     *
+     * */
     BEGIN("begin","开始节点"),
 
+    /**
+     * 结束节点不进入以下方法
+     *
+     * @method success
+     * @method complate
+     * @method fail
+     * @method rollback
+     *
+     * */
     END("end","结束节点"),
+
+    /**
+     * 条件节点不进入以下方法
+     *
+     * @method success
+     * @method complate
+     * @method fail
+     * @method rollback
+     *
+     * */
+    CONDITION("condition","条件节点"),
 
     METHOD("method","方法节点"),
 
     BEAN("bean","对象填槽节点"),
-
-    CONDITION("condition","条件节点"),
 
     SERVICE("service","服务节点"),
 

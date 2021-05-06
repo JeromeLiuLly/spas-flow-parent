@@ -15,22 +15,20 @@ nodes:
       nodeName: conditionByAge
       desc: 条件节点执行
       nodeType: condition
-      component: age<20:chain02
+      component: studentCount>20:chain02
       front: chain01
   - node:
       nodeId: chain02
       nodeName: beanInvoke
       desc: 单节点执行
-      input: Student
       nodeType: bean
-      component: nodeChainImpl
+      component: commonBeanFlowCainService
       front: chain01
       next: subFlowNode1
   - node:
       nodeId: subFlowNode1
       nodeName: subFlowNode1
       desc: 子流程节点
-      input: Student
       nodeType: subflow
       component: subflowChain
       front: chain02

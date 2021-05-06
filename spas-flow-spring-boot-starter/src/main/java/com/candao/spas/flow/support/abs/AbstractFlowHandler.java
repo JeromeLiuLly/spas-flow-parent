@@ -13,7 +13,7 @@ public abstract class AbstractFlowHandler implements IFlowHandler {
     @Override
     public ResponseFlowDataVo execute(String flowId, Object input) {
         FlowParser flowParser = new FlowParser(flowDefintion(flowId));
-        ResponseFlowDataVo execute = null;
+        ResponseFlowDataVo execute;
         try{
             execute = flowParser.execute(input);
         }catch (IOException e){

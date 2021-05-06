@@ -15,8 +15,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.candao.spas</groupId>
-            <artifactId>spas-flow-core</artifactId>
+            <artifactId>spas-flow-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-sample-dubbo-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.googlecode.aviator</groupId>
@@ -26,6 +34,43 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>QLExpress</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.candao.sp</groupId>
+            <artifactId>sp-dubbo-core</artifactId>
+            <version>1.0.6-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-sample-dubbo-api</artifactId>
+            <version>${reversion}</version>
+        </dependency>
+
     </dependencies>
 
 

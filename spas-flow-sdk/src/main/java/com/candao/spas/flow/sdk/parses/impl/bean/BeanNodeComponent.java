@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BeanNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
 
     @Override
-    public void parser(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum) {
-        invokeMethod(node,input,output,methodParserEnum);
+    public void parser(String flowId, Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum) {
+        invokeMethod(flowId,node,input,output,methodParserEnum);
     }
 }

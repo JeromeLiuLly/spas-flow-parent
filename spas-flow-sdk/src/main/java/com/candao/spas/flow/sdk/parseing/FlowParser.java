@@ -1,6 +1,7 @@
 package com.candao.spas.flow.sdk.parseing;
 
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
+import com.candao.spas.flow.core.model.resp.ResponseFlowStatus;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
 import com.candao.spas.flow.core.model.vo.Node;
 import lombok.AllArgsConstructor;
@@ -41,10 +42,11 @@ public class FlowParser {
         // 开始节点信息
         Node node = defintition.getNodeMap().get(startNode);
 
-        log.info("工作流ID:" + defintition.getFlowId()+",工作流名称:"+defintition.getFlowName()+",开始节点:"+defintition.getStartNodeId());
         FlowParserHandler flowParserHandler = new FlowParserHandler();
-        flowParserHandler.execNode(node,baseInput,defintition.getNodeMap(),responseDataVo);
-
+        flowParserHandler.execNode(defintition.getFlowId(),node,baseInput,defintition.getNodeMap(),responseDataVo);
+        if (responseDataVo.getStatus() != ResponseFlowStatus.SUCCESS.getStatus()){
+            responseDataVo.setData(null);
+        }
         return responseDataVo;
     }
 }

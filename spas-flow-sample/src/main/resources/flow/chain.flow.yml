@@ -1,0 +1,49 @@
+flowId: chain
+flowName: demoChain
+desc: 可视化业务编排
+startNodeId: chain01
+nodes:
+  - node:
+      nodeId: chain01
+      nodeName: beginInvoke
+      desc: 开始节点
+      nodeType: begin
+      front: root
+      next: conditionChain
+  - node:
+      nodeId: conditionChain
+      nodeName: conditionByAge
+      desc: 条件节点执行
+      nodeType: condition
+      component: studentCount>20:chain02
+      front: chain01
+  - node:
+      nodeId: chain02
+      nodeName: beanInvoke
+      desc: 单节点执行
+      nodeType: bean
+      component: commonBeanFlowChainService
+      front: chain01
+      next: chain03
+  - node:
+      nodeId: chain03
+      nodeName: methodInvoke
+      desc: 单节点执行
+      nodeType: method
+      component: commonMethodFlowChainService
+      front: chain02
+      next: chain04
+  - node:
+      nodeId: chain04
+      nodeName: serviceInvoke
+      desc: 单节点执行
+      nodeType: service
+      component: commonServiceFlowChainService
+      front: chain03
+      next: chain05
+  - node:
+      nodeId: chain05
+      nodeName: endInvoke
+      desc: 结束节点
+      nodeType: end
+      front: chain04

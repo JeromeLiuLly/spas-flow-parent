@@ -28,18 +28,6 @@ public class Node {
     private String desc;
 
     /**
-     * 节点输入参数
-     *
-     * */
-    private String input;
-
-    /**
-     * 节点输入参数
-     *
-     * */
-    private String output;
-
-    /**
      * 节点类型()
      *
      * @link NodeParserEnum
@@ -54,7 +42,7 @@ public class Node {
     private String nodeType;
 
     /**
-     * 节点执行路径（类路径or注解信息）
+     * 节点执行路径（Spring 注解单例对象 OR 子流程的flowId）
      *
      * */
     private String component;

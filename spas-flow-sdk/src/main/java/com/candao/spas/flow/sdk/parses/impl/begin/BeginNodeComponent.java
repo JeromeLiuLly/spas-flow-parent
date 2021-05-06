@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BeginNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
 
     @Override
-    public void parser(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum) {
-        log.info("进入开始节点");
-        RequestFlowDataVo<T> requestDataVo = initInput(node,input);
+    public void parser(String flowId, Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum) {
+        log.info("工作流Id: "+flowId+",节点名称: "+node.getNodeId()+",进入开始节点");
+        RequestFlowDataVo<T> requestDataVo = initInput(flowId,node,input);
         output.setStatus(ResponseFlowStatus.SUCCESS.getStatus());
         output.setData((R) requestDataVo.getData());
         output.setInput((R) requestDataVo.getData());

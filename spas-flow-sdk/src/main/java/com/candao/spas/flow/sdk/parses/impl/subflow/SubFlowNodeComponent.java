@@ -14,7 +14,7 @@ import org.springframework.beans.BeanUtils;
 public class SubFlowNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
 
     @Override
-    public void parser(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum method) {
+    public void parser(String flowId, Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum method) {
 
         try{
             String component = node.getComponent();

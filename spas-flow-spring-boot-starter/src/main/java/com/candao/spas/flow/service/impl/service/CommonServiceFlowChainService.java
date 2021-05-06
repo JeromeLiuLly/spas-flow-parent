@@ -1,0 +1,74 @@
+package com.candao.spas.flow.service.impl.service;
+
+import com.candao.spas.flow.core.model.enums.EventParserEnum;
+import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
+import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
+import com.candao.spas.flow.core.model.resp.ResponseFlowStatus;
+import com.candao.spas.flow.core.model.vo.Node;
+import com.candao.spas.flow.core.model.vo.TransferEventModel;
+import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.sdk.service.IService;
+import com.candao.spas.flow.soa.ISOAService;
+import com.candao.spas.flow.soa.factory.SOAForStrategy;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 通用化Service,远程方法调用
+ *
+ * 功能点：1. 业务逻辑处理
+ *
+ * */
+@Slf4j
+@Service
+public class CommonServiceFlowChainService implements IService {
+
+    @Autowired
+    private SOAForStrategy soaForStrategy;
+
+    @Override
+    public void handle(RequestFlowDataVo input, ResponseFlowDataVo output) throws Exception {
+        Object object = inputData(input,output);
+        String sourceJsonData = EasyJsonUtils.toJsonString(object);
+        try{
+            log.info("通用化Service,入参内容:" + sourceJsonData);
+
+            Node beanNode = input.getNode();
+
+            TransferEventModel model = beanNode.getTransfer();
+
+            if (model == null){
+                model = new TransferEventModel();
+                model.setEventType(EventParserEnum.DUBBO.getValue());
+                object = "c123055f524563beea85998e8a8870a8";
+
+                model.setMethodName("getAccountByToken");
+                model.setUrl("com.candao.auth.dubbo.api.AccountProvider");
+                model.setTimeout(30000);
+
+                List<String> paramList = new ArrayList<>();
+                paramList.add("java.lang.String");
+                model.setInputParamTypes(paramList);
+            }
+
+            EventParserEnum eventParserEnum = EventParserEnum.getEventInfo(model.getEventType());
+            ISOAService service = soaForStrategy.getSOAServiceInstance(eventParserEnum);
+            Object returnObj = service.handle(model,object);
+
+            if (returnObj != null){
+                output.setData(returnObj);
+            }
+            log.info("通用化Service,出参内容:" + EasyJsonUtils.toJsonString(output.getData()));
+            output.setResponseStatus(ResponseFlowStatus.SUCCESS);
+        }catch (Exception e){
+            e.printStackTrace();
+            output.setResponseStatus(ResponseFlowStatus.FAIL);
+            output.setMsg(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+    }
+}

@@ -4,6 +4,7 @@ import com.candao.spas.flow.core.model.enums.MethodParserEnum;
 import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.vo.Node;
+import com.candao.spas.flow.core.utils.ClassUtil;
 import com.candao.spas.flow.sdk.service.IService;
 import com.candao.spas.flow.core.utils.SpringContextUtil;
 import org.springframework.util.ReflectionUtils;
@@ -20,10 +21,15 @@ public interface NodeParser<T,R> {
      *
      * @return
      */
-    default RequestFlowDataVo initInput(Node node, T input){
+    default RequestFlowDataVo initInput(String flowId, Node node, T input){
         RequestFlowDataVo baseInputTarget = new RequestFlowDataVo();
         baseInputTarget.setData(input);
+
+        // 根据flowId,nodeId ,加载事件类型模型对象
+        //node.setTransfer();
+
         baseInputTarget.setNode(node);
+        baseInputTarget.setFlowId(flowId);
         return baseInputTarget;
     }
 
@@ -37,8 +43,8 @@ public interface NodeParser<T,R> {
      *
      * @return
      */
-    default void parserNode(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
-        parser(node, input, output,methodParserEnum);
+    default void parserNode(String flowId,Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
+        parser(flowId,node, input, output, methodParserEnum);
     };
 
     /**
@@ -49,16 +55,11 @@ public interface NodeParser<T,R> {
      * @param output 出参
      * @param methodParserEnum 执行方法类型
      * */
-    default void invokeMethod(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
-        RequestFlowDataVo request = initInput(node, input);
+    default void invokeMethod(String flowId,Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
+        RequestFlowDataVo request = initInput(flowId,node, input);
         String component = node.getComponent();
         IService service  = (IService) SpringContextUtil.getBean(component);
-
-        // 选择目标服务实例对象
-        Method method = ReflectionUtils.findMethod(service.getClass(), methodParserEnum.getValue(), request.getClass(), output.getClass());
-
-        // 选择目标服务实例的服务的方法
-        ReflectionUtils.invokeMethod(method, service, request, output);
+        ClassUtil.methodInvoke(service,methodParserEnum.getValue(),request,output);
     }
 
 
@@ -72,7 +73,7 @@ public interface NodeParser<T,R> {
      *
      * @return
      * */
-    void parser(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum);
+    void parser(String flowId, Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum);
 
 
     /**

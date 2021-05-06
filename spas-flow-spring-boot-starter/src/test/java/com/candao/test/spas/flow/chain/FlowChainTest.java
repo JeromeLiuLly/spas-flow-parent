@@ -4,7 +4,9 @@ import com.candao.spas.flow.core.model.vo.FlowDefintion;
 import com.candao.spas.flow.sdk.parseing.FlowParser;
 import com.candao.spas.flow.core.utils.EasyJsonUtils;
 import com.candao.spas.flow.support.factory.FlowDefintitionFactory;
-import com.candao.test.spas.flow.model.bean.Student;
+import com.candao.test.spas.flow.model.bean.InitClass;
+import com.candao.test.spas.flow.model.bean.Project;
+import com.candao.test.spas.flow.model.bean.Teacher;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -45,16 +48,13 @@ public class FlowChainTest {
         FlowDefintion defintition = flowDefintitionFactory.getFlowDefintion("chain");
         FlowParser flowParser = new FlowParser(defintition);
 
-        Student student = new Student();
-        student.setSn(1140120103);
-        student.setName("刘练源");
-        student.setAge(22);
-
+        InitClass init = new InitClass();
+        Project project = init.initProject();
+        log.info(EasyJsonUtils.toJsonString(project));
         try {
-            flowParser.execute(student);
+            flowParser.execute(project);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
 }

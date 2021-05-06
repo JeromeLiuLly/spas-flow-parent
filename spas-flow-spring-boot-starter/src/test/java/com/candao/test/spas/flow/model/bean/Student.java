@@ -4,12 +4,22 @@ import lombok.*;
 
 @Setter
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Student {
 
+    // 学生学号
     private Integer sn;
+
+    // 学生姓名
     private String name;
-    private Integer age;
+
+    // 语文成绩
+    private Integer languages;
+
+    // 数学成绩
+    private Integer mathematics;
+
+    // 英语成绩
+    private Integer english;
 }

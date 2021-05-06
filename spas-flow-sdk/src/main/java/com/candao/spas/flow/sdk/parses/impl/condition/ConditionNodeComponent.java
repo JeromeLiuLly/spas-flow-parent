@@ -30,7 +30,7 @@ public class ConditionNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
     private int count = 0;
 
     @Override
-    public void parser(Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum method) {
+    public void parser(String flowId, Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum method) {
         String conditions = node.getComponent();
 
         // 拆解多个条件
@@ -45,9 +45,9 @@ public class ConditionNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
                 String[] split1 = str.split(ChainConstants.COLON);
 
                 // 表达式求值运行
-                Object eval = SpleUtils.eval(split1[0], input);
-                //Map<String,Object> param = EasyJsonUtils.toJavaObject(input,Map.class);
-                //Object eval = AviatorEvaluator.execute(split1[0],param,true);
+                //Object eval = SpleUtils.eval(split1[0], input);
+                Map<String,Object> param = EasyJsonUtils.toJavaObject(input,Map.class);
+                Object eval = AviatorEvaluator.execute(split1[0],param,true);
 
                 // 断言表达式是否满足条件
                 if(Boolean.parseBoolean(eval.toString())){
@@ -57,7 +57,7 @@ public class ConditionNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
                     log.info(node.getNodeId()+"_"+method.getValue()+",判断内容: "+split1[0]+" ==>通过,进入下个节点:"+nodeStr);
                     if(!StringUtils.isEmpty(nextNode)){
                         FlowParserHandler flowParserHandler = new FlowParserHandler();
-                        flowParserHandler.execNode(nodeByCondition, input, nodeMap,output);
+                        flowParserHandler.execNode(flowId,nodeByCondition, input, nodeMap,output);
                         outputAtomic.set(output);
                     }else{
                         //解决循环执行节点问题
@@ -66,7 +66,7 @@ public class ConditionNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
                             String type = nodeByCondition.getNodeType();
                             NodeParser nodeInstance = NodeComponentFactory.getNodeInstance(type);
                             nodeInstance.setNodeMap(nodeMap);
-                            nodeInstance.parserNode(nodeByCondition, input, output,method);
+                            nodeInstance.parserNode(flowId,nodeByCondition, input, output,method);
                             outputAtomic.set(output);
                         }
                     }

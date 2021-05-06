@@ -16,5 +16,7 @@ public class RequestFlowDataVo<T> extends AbstractRequestData<T> implements Seri
      */
     private Long timestamp;
 
+    private String flowId;
+
     private Node node;
 }
