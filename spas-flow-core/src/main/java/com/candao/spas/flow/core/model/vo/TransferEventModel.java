@@ -81,7 +81,7 @@ public class TransferEventModel {
     private String methodName;
 
     /**
-     * 请求方法的入参类型(有顺序要求,根据请求方法的入参顺序),前端字符串
+     * 请求方法的入参类型(有顺序要求,根据请求方法的入参顺序),字符串
      *
      * */
     private List<String> inputParamTypesValues;

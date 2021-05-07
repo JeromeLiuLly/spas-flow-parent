@@ -32,28 +32,29 @@ public class CommonServiceFlowChainService implements IService {
 
     @Override
     public void handle(RequestFlowDataVo input, ResponseFlowDataVo output) throws Exception {
-        Object object = inputData(input,output);
-        String sourceJsonData = EasyJsonUtils.toJsonString(object);
         try{
-            log.info("通用化Service,入参内容:" + sourceJsonData);
 
             Node beanNode = input.getNode();
-
             TransferEventModel model = beanNode.getTransfer();
-
             if (model == null){
                 model = new TransferEventModel();
-                model.setEventType(EventParserEnum.DUBBO.getValue());
-                object = "c123055f524563beea85998e8a8870a8";
+                model.setEventType(EventParserEnum.HTTP.getValue());
 
-                model.setMethodName("getAccountByToken");
-                model.setUrl("com.candao.auth.dubbo.api.AccountProvider");
+                model.setMethodName("selectPaasShopByPlatformKeyAndBrandId");
+                model.setUrl("com.candao.access.dubbo.api.PaasShopProvider");
                 model.setTimeout(30000);
 
-                List<String> paramList = new ArrayList<>();
-                paramList.add("java.lang.String");
-                model.setInputParamTypes(paramList);
+                List<String> paramString = new ArrayList<>();
+                paramString.add("java.lang.String:projectName");
+                paramString.add("java.lang.Integer:studentCount");
+
+                model.setInputParamTypesValues(paramString);
+                input.getNode().setTransfer(model);
             }
+
+            Object object = inputData(input,output);
+            String sourceJsonData = EasyJsonUtils.toJsonString(object);
+            log.info("通用化Service,入参内容:" + sourceJsonData);
 
             EventParserEnum eventParserEnum = EventParserEnum.getEventInfo(model.getEventType());
             ISOAService service = soaForStrategy.getSOAServiceInstance(eventParserEnum);

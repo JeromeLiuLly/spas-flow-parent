@@ -13,34 +13,42 @@ public class TestType {
     public static void main(String[] args) {
         TransferEventModel transfer = new TransferEventModel();
 
+        Student student = new Student();
+        student.setName("刘练源");
+
+        Teacher teacher = new Teacher();
+        List<String> classesSN = new ArrayList<>();
+        classesSN.add("12");
+        classesSN.add("34");
+        teacher.setClassesSN(classesSN);
+        teacher.setName("刘练源");
+
         List<String> list = new ArrayList<>();
-        list.add("java.lang.String");
+        list.add("com.candao.spas.flow.sample.flow.bean.Teacher");
+        list.add("java.lang.String:getName");
+        list.add("java.util.List:getClassesSN");
         transfer.setInputParamTypesValues(list);
 
         transfer.getInputParamTypesValues().forEach((value)->{
             System.out.println(value);
-            java.lang.Class<?> cls = ClassUtil.forName(value);
-            transfer(transfer,cls);
+            String[] split = value.split(":");
+            java.lang.Class<?> cls;
+            if (split.length > 1){
+                cls = ClassUtil.forName(split[0]);
+                transfer(teacher,transfer,cls,split[1]);
+            }else {
+                cls = ClassUtil.forName(value);
+                transfer(teacher,transfer,cls,null);
+            }
         });
     }
 
-    public static void transfer(TransferEventModel transfer, java.lang.Class cls){
-        if (cls.isAssignableFrom(Integer.class)){
-            System.out.println("Integer");
-        }else if (cls.isAssignableFrom(Double.class)){
-            System.out.println("Double");
-        }else if (cls.isAssignableFrom(Float.class)){
-            System.out.println("Float");
-        }else if (cls.isAssignableFrom(Number.class)){
-            System.out.println("Number");
-        }else if (cls.isAssignableFrom(Map.class)){
-            System.out.println("Map");
-        }else if (cls.isAssignableFrom(List.class)){
-            System.out.println("List");
-        }else if (cls.isAssignableFrom(Set.class)){
-            System.out.println("Set");
-        }else if (cls.isAssignableFrom(String.class)){
-            System.out.println("String");
+    public static void transfer(Object o , TransferEventModel transfer, java.lang.Class cls,String method){
+        if (method == null){
+            System.out.println("自定义");
+        }else{
+            System.out.println(ClassUtil.methodInvoke(o,method));
         }
+
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class GRPCSOAService implements ISOAService{
 
     @Override
-    public Object handle(TransferEventModel transfer, Object... t) {
+    public Object handle(TransferEventModel transfer, Object t) {
         return null;
     }
 }

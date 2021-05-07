@@ -6,7 +6,6 @@ import com.candao.spas.flow.sample.dubbo.api.DubboSampleProvider;
 import com.candao.spas.flow.sample.flow.service.FlowService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ public class FlowChainController {
     @Autowired
     private FlowService flowService;
 
-    @DubboReference//(url = "dubbo://127.0.0.1:18110")
+    @DubboReference(url = "dubbo://127.0.0.1:19001")
     private DubboSampleProvider dubboSampleProvider;
 
     @PostMapping(value = "/test")

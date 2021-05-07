@@ -41,14 +41,18 @@ public class FlowService {
     public void commonMethod(RequestFlowDataVo input,ResponseFlowDataVo output){
         log.info("我是Spring托管-Method,带入参,返回值:void");
         TempProject project = EasyJsonUtils.toJavaObject(output.getData(),TempProject.class);
-        project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        //project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        project.setProjectName("dee600f6dd1c2e9d");
+        project.setStudentCount(1027);
         output.setData(project);
     }
 
     public Object commonMethod2(RequestFlowDataVo input,ResponseFlowDataVo output){
         log.info("我是Spring托管-Method,带入参,返回值:obj");
         TempProject project = EasyJsonUtils.toJavaObject(output.getData(),TempProject.class);
-        project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        //project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        project.setProjectName("dee600f6dd1c2e9d");
+        project.setStudentCount(1027);
         return project;
     }
 }

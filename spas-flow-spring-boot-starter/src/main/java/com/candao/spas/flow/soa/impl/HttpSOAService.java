@@ -24,16 +24,27 @@ import java.util.Map;
 public class HttpSOAService implements ISOAService {
 
     @Override
-    public Object handle(TransferEventModel transfer,Object... o) {
+    public Object handle(TransferEventModel transfer,Object o) {
 
         transfer = mockModel();
 
         HttpResult httpResult;
+
+        // 定义临时变量
+        Object tempObj;
+
+        // 断言是否存在入参定义
+        if (transfer.getInputParamTypes() != null && transfer.getInputParamTypes().size() == 1){
+            tempObj = transfer.getInputParamTypes().get(0);
+        }else{
+            tempObj = o;
+        }
+
         // 断言是否Post请求
         if (HttpPost.METHOD_NAME.equals(transfer.getRequertType())){
-            httpResult = HttpSender.postRequest(transfer.getFullLink(), EasyJsonUtils.toJsonString(o), transfer.getTimeout());
+            httpResult = HttpSender.postRequest(transfer.getFullLink(), EasyJsonUtils.toJsonString(tempObj), transfer.getTimeout());
         }else{
-            Map param = EasyJsonUtils.toJavaObject(o,Map.class);
+            Map param = EasyJsonUtils.toJavaObject(tempObj,Map.class);
             httpResult = HttpSender.getRequest(transfer.getUrl(),param, transfer.getTimeout());
         }
 

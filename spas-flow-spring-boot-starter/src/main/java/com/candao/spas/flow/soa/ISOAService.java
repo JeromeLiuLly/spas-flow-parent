@@ -17,7 +17,7 @@ public interface ISOAService<T,R> {
      *
      * @return R 返回参数
      * */
-    public R handle(TransferEventModel transfer, T... t);
+    public R handle(TransferEventModel transfer, T t);
 
     /**
      * SOA 通用化 返回结果数据结构

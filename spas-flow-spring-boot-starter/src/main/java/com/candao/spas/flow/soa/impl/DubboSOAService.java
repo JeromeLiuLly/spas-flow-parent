@@ -28,7 +28,7 @@ public class DubboSOAService implements ISOAService {
     }
 
     @Override
-    public Object handle(TransferEventModel transfer, Object... o) {
+    public Object handle(TransferEventModel transfer, Object o) {
 
         if (transfer == null){
             transfer = mockModel();
@@ -40,8 +40,10 @@ public class DubboSOAService implements ISOAService {
         GenericService genericService = reference.get();
 
         // 构造入参类型
-        String[] param = (String[]) transfer.getInputParamTypes().toArray(new String[transfer.getInputParamTypes().size()]);
-        Object returnObject = genericService.$invoke(transfer.getMethodName(), param,o);
+        String[] param = transfer.getInputParamTypesValues().toArray(new String[transfer.getInputParamTypesValues().size()]);
+        Object[] objects = transfer.getInputParamTypes().toArray(new Object[transfer.getInputParamTypesValues().size()]);
+
+        Object returnObject = genericService.$invoke(transfer.getMethodName(), param,objects);
 
         log.info("通用化Service,Dubbo-SOA调用返回内容:"+EasyJsonUtils.toJsonString(returnObject));
 

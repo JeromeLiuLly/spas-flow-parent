@@ -12,6 +12,8 @@ import com.candao.spas.flow.core.utils.SpringContextUtil;
 import com.candao.spas.flow.sdk.service.IService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,14 +30,17 @@ public class CommonMethodFlowChainService implements IService {
 
     @Override
     public void handle(RequestFlowDataVo input, ResponseFlowDataVo output) throws Exception {
-        Object o = inputData(input,output);
-        String sourceJsonData = EasyJsonUtils.toJsonString(o);
-
         try {
-            log.info("通用化Method,入参内容:" + sourceJsonData);
             Node beanNode = input.getNode();
 
             TransferEventModel model = mockModel(input,output);
+
+            input.getNode().setTransfer(model);
+
+            Object o = inputData(input,output);
+            String sourceJsonData = EasyJsonUtils.toJsonString(o);
+            log.info("通用化Method,入参内容:" + sourceJsonData);
+
             //TransferEventModel model = beanNode.getTransfer();
 
             Object returnObj;
@@ -73,14 +78,15 @@ public class CommonMethodFlowChainService implements IService {
 
     private TransferEventModel mockModel(RequestFlowDataVo input, ResponseFlowDataVo output){
         TransferEventModel model = new TransferEventModel();
-        model.setMethodName("commonMethod");
-        model.setUrl("flowService");
-        //model.setUrl("com.candao.spas.flow.sample.flow.service.FlowNativeService");
+        model.setMethodName("commonMethod3");
+        //model.setUrl("flowService");
+        model.setUrl("com.candao.spas.flow.sample.flow.service.FlowNativeService");
 
-        List list = new LinkedList();
-        list.add(input);
-        list.add(output);
-        model.setInputParamTypes(list);
+        List<String> list = new ArrayList<String>();
+        list.add("java.lang.String:projectName");
+        list.add("java.lang.Integer:studentCount");
+        list.add("com.candao.spas.flow.sample.flow.bean.TempProject");
+        model.setInputParamTypesValues(list);
 
         return model;
     }
