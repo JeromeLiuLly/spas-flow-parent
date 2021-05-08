@@ -22,7 +22,8 @@ public class SubFlowNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
             ResponseFlowDataVo responseDataVo = flowHandler.execute(component,input);
             BeanUtils.copyProperties(responseDataVo,output);
         }catch (Exception e){
-            throw new FlowException("Flow execution exception");
+            e.printStackTrace();
+            throw new FlowException("子流程构造失败:"+e.getMessage());
         }
     }
 }

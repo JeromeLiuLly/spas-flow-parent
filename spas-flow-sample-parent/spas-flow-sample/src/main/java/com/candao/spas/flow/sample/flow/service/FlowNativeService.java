@@ -28,7 +28,7 @@ public class FlowNativeService {
         return project;
     }
 
-    public Object commonMethod3(String name,Integer num, TempProject project){
+    public Object commonMethod3(String name,Integer num, TempProject project) throws Exception {
         log.info("我是Native-Method3,带入参,返回值:obj"+name+"_"+num);
         //TempProject project = EasyJsonUtils.toJavaObject(output.getData(),TempProject.class);
         project.setProjectName("Native-Method_"+project.getProjectName()+"_"+name);

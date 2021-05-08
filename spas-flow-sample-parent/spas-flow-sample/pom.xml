@@ -22,10 +22,6 @@
             <artifactId>spas-flow-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.candao.spas</groupId>
-            <artifactId>spas-flow-sample-dubbo-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.googlecode.aviator</groupId>
             <artifactId>aviator</artifactId>
         </dependency>

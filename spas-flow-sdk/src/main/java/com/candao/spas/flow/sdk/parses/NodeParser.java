@@ -75,10 +75,10 @@ public interface NodeParser<T,R> {
      * @param methodParserEnum 执行方法类型
      * */
     default void invokeMethod(String flowId,Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
-        RequestFlowDataVo request = initInput(flowId,node, input);
+        RequestFlowDataVo request = initInput(flowId, node, input);
         String component = node.getComponent();
-        IService service  = (IService) SpringContextUtil.getBean(component);
-        ClassUtil.methodInvoke(service,methodParserEnum.getValue(),request,output);
+        IService service = (IService) SpringContextUtil.getBean(component);
+        ClassUtil.methodInvoke(service, methodParserEnum.getValue(), request, output);
     }
 
 

@@ -46,7 +46,6 @@ public class HttpSOAService implements ISOAService {
         if (httpResult != null && httpResult.isOk()) {
             Map<String,Object> responseData = EasyJsonUtils.toJavaObject(httpResult.content, Map.class);
             return getObject(responseData,transfer);
-
         }else{
             throw new FlowException("请求发起失败,请查看异常信息."+httpResult != null ? httpResult.errorMsg : "");
         }
