@@ -11,18 +11,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.candao.spas</groupId>
-    <artifactId>spas-flow-sample-http</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+    <artifactId>spas-flow-framework-parent</artifactId>
+    <version>${revision}</version>
 
-        <dependency>
-            <groupId>com.candao.spas</groupId>
-            <artifactId>spas-flow-core</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>spas-flow-mysql</module>
+        <module>spas-flow-redis</module>
+    </modules>
+
+    <packaging>pom</packaging>
+    <name>spas-flow-framework-parent</name>
+    <description>spas flow framework parent</description>
 
 
 </project>

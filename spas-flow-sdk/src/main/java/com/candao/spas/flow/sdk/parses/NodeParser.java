@@ -13,12 +13,6 @@ import com.candao.spas.flow.sdk.mapper.TransferConfigMapper;
 import com.candao.spas.flow.sdk.service.IService;
 import com.candao.spas.flow.core.utils.SpringContextUtil;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public interface NodeParser<T,R> {
