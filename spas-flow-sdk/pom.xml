@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spas-flow-parent</artifactId>
         <groupId>com.candao.spas</groupId>
-        <version>${reversion}</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,6 +18,49 @@
             <groupId>com.candao.spas</groupId>
             <artifactId>spas-flow-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+
+        </dependency>
+
     </dependencies>
 
 

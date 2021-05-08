@@ -10,6 +10,12 @@ public interface ChainConstants {
 
     public final static String POINT = ".";
 
+    public final static String LEFT_BRACKET = "\\[";
+
+    public final static String RIGHT_BRACKET = "\\]";
+
+    public final static String QUOTATION = "\"";
+
     /**
      * 第三方返回状态码的key
      *

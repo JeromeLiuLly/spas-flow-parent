@@ -34,27 +34,12 @@ public class CommonServiceFlowChainService implements IService {
     public void handle(RequestFlowDataVo input, ResponseFlowDataVo output) throws Exception {
         try{
 
-            Node beanNode = input.getNode();
-            TransferEventModel model = beanNode.getTransfer();
-            if (model == null){
-                model = new TransferEventModel();
-                model.setEventType(EventParserEnum.HTTP.getValue());
-
-                model.setMethodName("selectPaasShopByPlatformKeyAndBrandId");
-                model.setUrl("com.candao.access.dubbo.api.PaasShopProvider");
-                model.setTimeout(30000);
-
-                List<String> paramString = new ArrayList<>();
-                paramString.add("java.lang.String:projectName");
-                paramString.add("java.lang.Integer:studentCount");
-
-                model.setInputParamTypesValues(paramString);
-                input.getNode().setTransfer(model);
-            }
-
             Object object = inputData(input,output);
             String sourceJsonData = EasyJsonUtils.toJsonString(object);
             log.info("通用化Service,入参内容:" + sourceJsonData);
+
+            Node beanNode = input.getNode();
+            TransferEventModel model = beanNode.getTransfer();
 
             EventParserEnum eventParserEnum = EventParserEnum.getEventInfo(model.getEventType());
             ISOAService service = soaForStrategy.getSOAServiceInstance(eventParserEnum);

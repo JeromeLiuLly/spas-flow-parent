@@ -1,6 +1,5 @@
 package com.candao.spas.flow.soa.impl;
 
-import com.candao.spas.flow.core.model.enums.EventParserEnum;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
 import com.candao.spas.flow.core.utils.EasyJsonUtils;
 import com.candao.spas.flow.soa.ISOAService;
@@ -8,9 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -30,12 +26,8 @@ public class DubboSOAService implements ISOAService {
     @Override
     public Object handle(TransferEventModel transfer, Object o) {
 
-        if (transfer == null){
-            transfer = mockModel();
-        }
-
         reference.setInterface(transfer.getUrl());
-        reference.setTimeout(transfer.getTimeout());
+        reference.setTimeout(transfer.getTimeout() * 1000);
         reference.setGeneric("true");
         GenericService genericService = reference.get();
 
@@ -54,20 +46,5 @@ public class DubboSOAService implements ISOAService {
         }
 
         return returnObject;
-    }
-
-    private TransferEventModel mockModel(){
-        TransferEventModel model = new TransferEventModel();
-
-        model.setMethodName("getAccountByToken");
-        model.setUrl("com.candao.auth.dubbo.api.AccountProvider");
-        model.setEventType(EventParserEnum.DUBBO.getValue());
-        model.setTimeout(30000);
-
-        List<String> paramList = new ArrayList<>();
-        paramList.add("java.lang.String");
-        model.setInputParamTypes(paramList);
-
-        return model;
     }
 }

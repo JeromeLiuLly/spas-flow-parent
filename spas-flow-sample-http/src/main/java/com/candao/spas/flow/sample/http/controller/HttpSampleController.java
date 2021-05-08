@@ -23,6 +23,7 @@ public class HttpSampleController {
         Map<String,Object> param = new HashMap<>();
         param.put("userName","刘练源");
         param.put("input",o);
+        param.put("token","56af4db227eb7c2a007e988bcbca9727");
         return ResponseFlowDataVo.generateSuccess(param);
     }
 }

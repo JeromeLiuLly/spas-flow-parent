@@ -7,7 +7,7 @@
     <groupId>com.candao.spas</groupId>
     <artifactId>spas-flow-parent</artifactId>
     <packaging>pom</packaging>
-    <version>${reversion}</version>
+    <version>${revision}</version>
 
     <modules>
         <module>spas-flow-dependencies</module>
@@ -19,11 +19,13 @@
         <module>spas-flow-sample-dubbo</module>
         <module>spas-flow-sample-http</module>
         <module>spas-flow-sample-dubbo-api</module>
+        <module>spas-flow-mysql</module>
+        <module>spas-flow-redis</module>
     </modules>
 
     <properties>
         <!-- 指定编译版本和编码 -->
-        <reversion>0.0.2</reversion>
+        <revision>0.0.2</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -33,6 +35,10 @@
         <zookeeper.version>3.4.13</zookeeper.version>
         <dubbo-spring-boot-starter.version>2.7.7</dubbo-spring-boot-starter.version>
         <curator-recipes.version>4.0.1</curator-recipes.version>
+        <mybatis-spring-boot-starter.version>1.3.5</mybatis-spring-boot-starter.version>
+        <pagehelper-spring-boot-starter.version>1.2.13</pagehelper-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>1.3.5</mybatis-spring-boot-starter.version>
+        <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
     </properties>
 
     <dependencyManagement>
@@ -42,7 +48,7 @@
             <dependency>
                 <groupId>com.candao.spas</groupId>
                 <artifactId>spas-flow-dependencies</artifactId>
-                <version>${reversion}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

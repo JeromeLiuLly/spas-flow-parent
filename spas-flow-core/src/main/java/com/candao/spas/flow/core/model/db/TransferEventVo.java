@@ -2,8 +2,16 @@ package com.candao.spas.flow.core.model.db;
 
 import lombok.*;
 
-@Setter
-@Getter
+import javax.persistence.Table;
+import java.util.List;
+import java.util.Map;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Table(name = "transfer_event_config")
 public class TransferEventVo {
 
     /**
@@ -24,13 +32,6 @@ public class TransferEventVo {
      * */
     private String eventName;
 
-
-    /**
-     * json转换规则
-     *
-     * */
-    private String convertRule;
-
     /**
      * 事件描述
      *
@@ -44,16 +45,37 @@ public class TransferEventVo {
     private Object input;
 
     /**
-     * 输出参数
+     * 输出参数结构
      *
      * */
-    private Object output;
+    private OutPutResponseVo output;
 
     /**
      * 请求地址
      *
+     * eventType == Native,填入类路径（非Spring托管,填入类全路径; Spring托管,填入bean对象）
+     *
      * */
     private String url;
+
+    /**
+     * 请求地址全链接：fullLink = url + ":" + serverPort + methodName
+     *
+     * */
+    private String fullLink;
+
+    /**
+     * 请求协议（post、get）
+     *
+     * 默认POST请求
+     * */
+    private String requertType = "POST";
+
+    /**
+     * 服务端口
+     *
+     * */
+    private String serverPort;
 
     /**
      * 请求方法
@@ -62,10 +84,22 @@ public class TransferEventVo {
     private String methodName;
 
     /**
-     * 服务端口
+     * 请求方法的入参类型(有顺序要求,根据请求方法的入参顺序),字符串
      *
      * */
-    private String serverPort;
+    private List<String> inputParamTypesValues;
+
+    /**
+     * 请求方法的入参类型(有顺序要求,根据请求方法的入参顺序),实现类
+     *
+     * */
+    private List inputParamTypes;
+
+    /**
+     * json转换规则
+     *
+     * */
+    private String convertRule;
 
     /**
      * 请求超时时间(秒)

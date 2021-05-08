@@ -1,5 +1,6 @@
 package com.candao.spas.flow.core.model.vo;
 
+import com.candao.spas.flow.core.model.db.OutPutResponseVo;
 import lombok.*;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class TransferEventModel {
      * 输出参数结构
      *
      * */
-    private Map<String,Object> output;
+    private OutPutResponseVo output;
 
     /**
      * 请求地址
@@ -72,7 +73,7 @@ public class TransferEventModel {
      * 服务端口
      *
      * */
-    private Integer serverPort;
+    private String serverPort;
 
     /**
      * 请求方法、路由端点

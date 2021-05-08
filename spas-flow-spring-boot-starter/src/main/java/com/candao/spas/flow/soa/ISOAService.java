@@ -25,15 +25,15 @@ public interface ISOAService<T,R> {
      * */
     default Object getObject(Map<String,Object> responseData,TransferEventModel transfer){
         // 获取第三方返回状态码值
-        Object returnCode = responseData.get(transfer.getOutput().get(ChainConstants.CODEKEY));
+        Object returnCode = responseData.get(transfer.getOutput().getCode());
 
         // 断言状态码是否成功
         if (returnCode != null){
             // 断言状态码是否成功
-            if (returnCode.toString().equals(transfer.getOutput().get(ChainConstants.CODEVALUE).toString())){
-                return responseData.get(transfer.getOutput().get(ChainConstants.DATAKEY));
-            }else{
-                throw new FlowException(responseData.get(transfer.getOutput().get(ChainConstants.MSGKEY)).toString());
+            if (returnCode.toString().equals(transfer.getOutput().getValue().toString())){
+                return responseData.get(transfer.getOutput().getData());
+            }else {
+                throw new FlowException(responseData.get(transfer.getOutput().getMsg()).toString());
             }
         }else {
             throw new FlowException("请求状态码配置有误,无法获取状态码信息.");

@@ -1,8 +1,6 @@
 package com.candao.spas.flow.soa.impl;
 
-import com.candao.spas.flow.core.constants.ChainConstants;
 import com.candao.spas.flow.core.exception.FlowException;
-import com.candao.spas.flow.core.model.enums.EventParserEnum;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
 import com.candao.spas.flow.core.utils.EasyJsonUtils;
 import com.candao.spas.flow.core.utils.net.http.HttpResult;
@@ -11,8 +9,6 @@ import com.candao.spas.flow.soa.ISOAService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpPost;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,8 +21,6 @@ public class HttpSOAService implements ISOAService {
 
     @Override
     public Object handle(TransferEventModel transfer,Object o) {
-
-        transfer = mockModel();
 
         HttpResult httpResult;
 
@@ -56,22 +50,5 @@ public class HttpSOAService implements ISOAService {
         }else{
             throw new FlowException("请求发起失败,请查看异常信息."+httpResult != null ? httpResult.errorMsg : "");
         }
-    }
-
-    private TransferEventModel mockModel(){
-        TransferEventModel model = new TransferEventModel();
-
-        model.setMethodName("/flow/http/demo");
-        model.setServerPort(8888);
-        model.setUrl("http://127.0.0.1");
-        model.setEventType(EventParserEnum.HTTP.getValue());
-
-        Map<String,Object> param = new HashMap<>();
-        param.put("code","status");
-        param.put("value",1);
-        param.put("data","data");
-
-        model.setOutput(param);
-        return model;
     }
 }

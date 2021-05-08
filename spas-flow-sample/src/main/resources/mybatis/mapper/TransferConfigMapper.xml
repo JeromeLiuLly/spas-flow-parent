@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.candao.spas.flow.sdk.mapper.TransferConfigMapper">
+
+    <resultMap id="transfer" type="com.candao.spas.flow.core.model.db.TransferEventVo">
+        <result column="flowId" property="flowId"/>
+        <result column="nodeId" property="nodeId"/>
+        <result column="eventName" property="eventName"/>
+        <result column="desc" property="desc"/>
+        <result column="input" property="input"/>
+        <result column="output" property="output" typeHandler="com.candao.spas.flow.sdk.typehandle.JsonTypeHandler"/>
+        <result column="url" property="url"/>
+        <result column="requertType" property="requertType"/>
+        <result column="serverPort" property="serverPort"/>
+        <result column="methodName" property="methodName" />
+        <result column="inputParamTypesValues" property="inputParamTypesValues" typeHandler="com.candao.spas.flow.sdk.typehandle.StringToListTypeHandler"/>
+        <result column="convertRule" property="convertRule"/>
+        <result column="timeout" property="timeout"/>
+        <result column="eventType" property="eventType"/>
+        <result column="version" property="version"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="getTransferById" resultMap="transfer">
+        SELECT
+        *
+        FROM transfer_event_config as o
+        <where>
+            1=1
+            <if test="flowId != null and flowId != ''">
+                AND o.flowId = #{flowId}
+            </if>
+            <if test="nodeId != null and nodeId != ''">
+                AND o.nodeId = #{nodeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findTransferById" resultType="com.candao.spas.flow.core.model.db.TransferEventVo">
+        SELECT
+        *
+        FROM transfer_event_config as o
+        <where>
+            1=1
+            <if test="flowId != null and flowId != ''">
+                AND o.flowId = #{flowId}
+            </if>
+        </where>
+    </select>
+</mapper>

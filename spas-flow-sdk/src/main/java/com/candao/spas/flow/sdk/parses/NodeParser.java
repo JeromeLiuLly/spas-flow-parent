@@ -1,12 +1,21 @@
 package com.candao.spas.flow.sdk.parses;
 
+import com.candao.spas.flow.core.model.db.TransferEventVo;
 import com.candao.spas.flow.core.model.enums.MethodParserEnum;
+import com.candao.spas.flow.core.model.enums.NodeParserEnum;
 import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.vo.Node;
+import com.candao.spas.flow.core.model.vo.TransferEventModel;
 import com.candao.spas.flow.core.utils.ClassUtil;
+import com.candao.spas.flow.redis.handler.DataUtil;
+import com.candao.spas.flow.sdk.mapper.TransferConfigMapper;
 import com.candao.spas.flow.sdk.service.IService;
 import com.candao.spas.flow.core.utils.SpringContextUtil;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -25,9 +34,25 @@ public interface NodeParser<T,R> {
         RequestFlowDataVo baseInputTarget = new RequestFlowDataVo();
         baseInputTarget.setData(input);
 
-        // 根据flowId,nodeId ,加载事件类型模型对象
-        //node.setTransfer();
+        // 根据flowId,nodeId ,加载事件类型模型对象,排除 Begin、End、Subflow、Condition 节点
+        if (!NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
 
+            String redisKey = "flow:"+flowId+":"+node.getNodeId();
+            TransferEventVo transferEventVo = DataUtil.getDataFromRedisOrDataGeter(redisKey,TransferEventVo.class,()->{
+                TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
+                TransferEventVo transfer = transferConfigMapper.getTransferById(flowId, node.getNodeId());
+                return transfer;
+            });
+
+            // 优先走Redis ==> DB
+            //TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
+            //TransferEventVo transferEventVo = transferConfigMapper.getTransferById(flowId, node.getNodeId());
+
+            TransferEventModel transferEventModel = new TransferEventModel();
+            BeanUtils.copyProperties(transferEventVo, transferEventModel);
+
+            node.setTransfer(transferEventModel);
+        }
         baseInputTarget.setNode(node);
         baseInputTarget.setFlowId(flowId);
         return baseInputTarget;

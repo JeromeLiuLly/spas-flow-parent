@@ -31,17 +31,13 @@ public class CommonMethodFlowChainService implements IService {
     @Override
     public void handle(RequestFlowDataVo input, ResponseFlowDataVo output) throws Exception {
         try {
-            Node beanNode = input.getNode();
-
-            TransferEventModel model = mockModel(input,output);
-
-            input.getNode().setTransfer(model);
 
             Object o = inputData(input,output);
             String sourceJsonData = EasyJsonUtils.toJsonString(o);
             log.info("通用化Method,入参内容:" + sourceJsonData);
 
-            //TransferEventModel model = beanNode.getTransfer();
+            Node beanNode = input.getNode();
+            TransferEventModel model = beanNode.getTransfer();
 
             Object returnObj;
 
@@ -51,13 +47,13 @@ public class CommonMethodFlowChainService implements IService {
                 inputObj=model.getInputParamTypes().toArray(new Object[model.getInputParamTypes().size()]);
             }
 
+            log.info("通用化Method,入参参数类型:" + EasyJsonUtils.toJsonString(model.getInputParamTypesValues()));
+            log.info("通用化Method,入参参数数据:" + EasyJsonUtils.toJsonString(model.getInputParamTypes()));
             // 断言本地调用类型,是否Spring托管
             if (model.getUrl().indexOf(ChainConstants.POINT) > 0){
-                // 选择目标服务实例对象
                 returnObj = ClassUtil.methodInvoke(model.getUrl(),model.getMethodName(),inputObj);
             }else{
                 Object service  = SpringContextUtil.getBean(model.getUrl());
-                // 选择目标服务实例对象
                 returnObj = ClassUtil.methodInvoke(service,model.getMethodName(),inputObj);
             }
 
@@ -74,20 +70,5 @@ public class CommonMethodFlowChainService implements IService {
             output.setMsg(e.getMessage());
             throw new Exception(e.getMessage(),e);
         }
-    }
-
-    private TransferEventModel mockModel(RequestFlowDataVo input, ResponseFlowDataVo output){
-        TransferEventModel model = new TransferEventModel();
-        model.setMethodName("commonMethod3");
-        //model.setUrl("flowService");
-        model.setUrl("com.candao.spas.flow.sample.flow.service.FlowNativeService");
-
-        List<String> list = new ArrayList<String>();
-        list.add("java.lang.String:projectName");
-        list.add("java.lang.Integer:studentCount");
-        list.add("com.candao.spas.flow.sample.flow.bean.TempProject");
-        model.setInputParamTypesValues(list);
-
-        return model;
     }
 }
