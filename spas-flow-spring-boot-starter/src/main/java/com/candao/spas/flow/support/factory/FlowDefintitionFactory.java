@@ -1,6 +1,6 @@
 package com.candao.spas.flow.support.factory;
 
-import com.candao.spas.flow.core.exception.FlowException;
+import com.candao.spas.flow.sdk.exception.FlowException;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
 import com.candao.spas.flow.support.FlowDefintionRegistry;
 import lombok.Getter;

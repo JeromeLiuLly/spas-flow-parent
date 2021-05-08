@@ -6,16 +6,12 @@ import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowStatus;
 import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
-import com.candao.spas.flow.core.utils.SpringContextUtil;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sdk.service.IService;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
+import com.candao.spas.flow.sdk.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 通用化Method,本地方法调用

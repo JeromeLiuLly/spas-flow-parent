@@ -1,12 +1,10 @@
 package com.candao.spas.flow.sample.flow.bean;
 
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class TestType {
 

@@ -1,8 +1,8 @@
 package com.candao.spas.flow.redis;
 
 
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
 import com.candao.spas.flow.core.utils.StringUtil;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

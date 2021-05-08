@@ -1,8 +1,6 @@
 package com.candao.spas.flow.soa;
 
-
-import com.candao.spas.flow.core.constants.ChainConstants;
-import com.candao.spas.flow.core.exception.FlowException;
+import com.candao.spas.flow.sdk.exception.FlowException;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
 
 import java.util.Map;

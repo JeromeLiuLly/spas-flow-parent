@@ -4,18 +4,15 @@ import com.candao.spas.flow.core.constants.ChainConstants;
 import com.candao.spas.flow.core.model.enums.NodeParserEnum;
 import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
-import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
 import com.googlecode.aviator.AviatorEvaluator;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /***
  * 定义执行节点的方法

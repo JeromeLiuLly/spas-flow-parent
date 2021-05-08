@@ -25,6 +25,11 @@
         </dependency>
         <dependency>
             <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-json</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.candao.spas</groupId>
             <artifactId>spas-flow-redis</artifactId>
             <version>${revision}</version>
         </dependency>

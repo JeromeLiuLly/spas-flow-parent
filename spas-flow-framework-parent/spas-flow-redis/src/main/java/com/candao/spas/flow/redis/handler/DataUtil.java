@@ -1,6 +1,6 @@
 package com.candao.spas.flow.redis.handler;
 
-import com.candao.spas.flow.core.exception.RedisException;
+import com.candao.spas.flow.redis.exception.RedisException;
 import com.candao.spas.flow.redis.RedisClient;
 import com.candao.spas.flow.redis.RedisDataSource;
 import com.candao.spas.flow.redis.RedisDataSourceFactory;

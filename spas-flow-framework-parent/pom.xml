@@ -17,6 +17,7 @@
     <modules>
         <module>spas-flow-mysql</module>
         <module>spas-flow-redis</module>
+        <module>spas-flow-json</module>
     </modules>
 
     <packaging>pom</packaging>

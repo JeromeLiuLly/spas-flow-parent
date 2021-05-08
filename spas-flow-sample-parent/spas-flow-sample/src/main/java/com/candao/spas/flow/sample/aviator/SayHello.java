@@ -1,6 +1,6 @@
 package com.candao.spas.flow.sample.aviator;
 
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.googlecode.aviator.AviatorEvaluator;
 import lombok.Getter;
 import lombok.Setter;

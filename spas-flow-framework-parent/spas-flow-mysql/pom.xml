@@ -15,7 +15,8 @@
     <dependencies>
         <dependency>
             <groupId>com.candao.spas</groupId>
-            <artifactId>spas-flow-core</artifactId>
+            <artifactId>spas-flow-json</artifactId>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

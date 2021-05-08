@@ -1,7 +1,7 @@
 package com.candao.spas.flow.sample.flow.controller;
 
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sample.dubbo.api.DubboSampleProvider;
 import com.candao.spas.flow.sample.flow.service.FlowService;
 import lombok.extern.slf4j.Slf4j;

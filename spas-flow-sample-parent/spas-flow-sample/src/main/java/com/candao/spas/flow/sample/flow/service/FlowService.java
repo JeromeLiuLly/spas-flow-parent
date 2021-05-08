@@ -3,7 +3,7 @@ package com.candao.spas.flow.sample.flow.service;
 import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sdk.parseing.FlowParser;
 import com.candao.spas.flow.support.factory.FlowDefintitionFactory;
 import lombok.extern.slf4j.Slf4j;

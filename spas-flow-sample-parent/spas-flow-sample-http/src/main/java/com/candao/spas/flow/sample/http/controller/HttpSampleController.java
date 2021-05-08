@@ -1,7 +1,7 @@
 package com.candao.spas.flow.sample.http.controller;
 
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

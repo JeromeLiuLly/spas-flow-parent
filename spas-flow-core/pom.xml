@@ -79,6 +79,11 @@
             <artifactId>joda-time</artifactId>
             <version>2.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-json</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 

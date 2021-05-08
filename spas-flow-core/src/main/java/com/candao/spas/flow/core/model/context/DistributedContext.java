@@ -3,7 +3,7 @@ package com.candao.spas.flow.core.model.context;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**

@@ -1,7 +1,7 @@
 package com.candao.spas.flow.soa.impl;
 
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.soa.ISOAService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -38,7 +38,7 @@ public class DubboSOAService implements ISOAService {
 
         Object returnObject = genericService.$invoke(transfer.getMethodName(), param,objects);
 
-        log.info("通用化Service,Dubbo-SOA调用返回内容:"+EasyJsonUtils.toJsonString(returnObject));
+        log.info("通用化Service,Dubbo-SOA调用返回内容:"+ EasyJsonUtils.toJsonString(returnObject));
 
         // 断言是否走http 标准返回数据结构
         if (transfer.getOutput() != null){

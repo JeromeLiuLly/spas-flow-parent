@@ -1,7 +1,7 @@
 package com.candao.spas.flow.sample.flow.bean;
 
 
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;

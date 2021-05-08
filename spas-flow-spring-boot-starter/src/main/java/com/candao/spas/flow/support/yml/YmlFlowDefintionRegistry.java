@@ -4,7 +4,7 @@ import com.candao.spas.flow.core.constants.ChainConstants;
 import com.candao.spas.flow.core.model.converter.FlowDefintionConverter;
 import com.candao.spas.flow.core.model.dto.YmlFlowDto;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.support.FlowDefintionRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

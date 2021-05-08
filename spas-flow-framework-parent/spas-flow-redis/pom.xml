@@ -18,6 +18,11 @@
             <artifactId>spas-flow-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-json</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>28.2-android</version>
