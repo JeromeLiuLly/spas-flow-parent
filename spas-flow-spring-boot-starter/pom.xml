@@ -17,12 +17,10 @@
         <dependency>
             <groupId>com.candao.spas</groupId>
             <artifactId>spas-flow-core</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.candao.spas</groupId>
             <artifactId>spas-flow-sdk</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

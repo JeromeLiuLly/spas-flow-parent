@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.candao.spas.flow.mysql.spring.boot.autoconfigure.RouteDataSourceAutoConfiguration

@@ -11,16 +11,12 @@
 
     <modules>
         <module>spas-flow-dependencies</module>
+        <module>spas-flow-sample-parent</module>
+        <module>spas-flow-framework-parent</module>
         <module>spas-flow-core</module>
-        <module>spas-flow-sample</module>
         <module>spas-flow-sdk</module>
         <module>spas-flow-web</module>
         <module>spas-flow-spring-boot-starter</module>
-        <module>spas-flow-sample-dubbo</module>
-        <module>spas-flow-sample-http</module>
-        <module>spas-flow-sample-dubbo-api</module>
-        <module>spas-flow-mysql</module>
-        <module>spas-flow-redis</module>
     </modules>
 
     <properties>

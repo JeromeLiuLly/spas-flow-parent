@@ -19,6 +19,7 @@ import java.util.Map;
 public class DubboSOAService implements ISOAService {
 
     private static ReferenceConfig<GenericService> reference;
+    private static final String GENERIC = "true";
     static {
         reference = new ReferenceConfig();
     }
@@ -28,7 +29,7 @@ public class DubboSOAService implements ISOAService {
 
         reference.setInterface(transfer.getUrl());
         reference.setTimeout(transfer.getTimeout() * 1000);
-        reference.setGeneric("true");
+        reference.setGeneric(GENERIC);
         GenericService genericService = reference.get();
 
         // 构造入参类型
@@ -44,7 +45,6 @@ public class DubboSOAService implements ISOAService {
             Map<String,Object> responseData = EasyJsonUtils.toJavaObject(returnObject, Map.class);
             return getObject(responseData,transfer);
         }
-
         return returnObject;
     }
 }
