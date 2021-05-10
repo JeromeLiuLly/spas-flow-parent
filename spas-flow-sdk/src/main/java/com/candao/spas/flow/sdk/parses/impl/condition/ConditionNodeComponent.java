@@ -37,7 +37,6 @@ public class ConditionNodeComponent<T,R> extends AbstractNodeComponent<T,R> {
         // 拆解多个条件
         String[] condition = conditions.split(ChainConstants.COMMA);
         AtomicReference<ResponseFlowDataVo> outputAtomic = new AtomicReference<>(new ResponseFlowDataVo());
-
         // 默认不构造异常结果,只要有一个成功，就都是成功
         AtomicBoolean conditionResult = new AtomicBoolean(false);
 
