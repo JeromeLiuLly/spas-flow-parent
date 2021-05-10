@@ -30,17 +30,13 @@ public interface NodeParser<T,R> {
 
         // 根据flowId,nodeId ,加载事件类型模型对象,排除 Begin、End、Subflow、Condition 节点
         if (!NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
-
             String redisKey = "flow:"+flowId+":"+node.getNodeId();
+            // 优先走Redis,再走DB
             TransferEventVo transferEventVo = DataUtil.getDataFromRedisOrDataGeter(redisKey,TransferEventVo.class,()->{
                 TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
                 TransferEventVo transfer = transferConfigMapper.getTransferById(flowId, node.getNodeId());
                 return transfer;
             });
-
-            // 优先走Redis ==> DB
-            //TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
-            //TransferEventVo transferEventVo = transferConfigMapper.getTransferById(flowId, node.getNodeId());
 
             TransferEventModel transferEventModel = new TransferEventModel();
             BeanUtils.copyProperties(transferEventVo, transferEventModel);
