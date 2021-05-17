@@ -1,0 +1,177 @@
+.policy-page {
+  width: 100%;
+  height: 100%;
+  .policy-canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .label {
+    position: absolute;
+    width: 38px;
+    height: 22px;
+    background: @butterfly-theme-color;
+    text-align: center;
+    border-radius: @butterfly-box-radius;
+  }
+  .diamond {
+    .text {
+      font-size: 14px;
+      color: @butterfly-normal-font-color;
+      text-align: center;
+    }
+    width: 70px;
+    height: 70px;
+    transform: rotate(45deg);
+    border-radius: 0px;
+    line-height: 5;
+    background-color: @butterfly-theme-color;
+    .rotate {
+      transform: rotate(-45deg) translateX(-3%) translateY(-72%);
+    }
+
+  }
+  .entity-base-node {
+    position: absolute;
+    text-align: center;
+    background: @butterfly-theme-color;
+    vertical-align: middle;
+    border-radius: 5px;
+    line-height: 3;
+    border: @butterfly-box-border;
+  }
+
+  .text {
+    color: @butterfly-overlay-font-color;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    -webkit-box-pack: center;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+
+  .operate-bar{
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    left: 10px;
+    height: 92%;
+    z-index: 999;
+    width: 250px;
+    box-shadow:@butterfly-box-shadow;
+    border:@butterfly-box-border;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: @butterfly-theme-color;
+    color:@butterfly-normal-font-color;
+    .operate-bar-title{
+      height: 30px;
+      width: 100%;
+      line-height: 30px;
+      text-align: center;
+      background-color: @butterfly-primary-color;
+      color: @butterfly-overlay-font-color;
+      margin-bottom: 10px;
+    }
+    .operate-item{
+      margin-bottom: 10px;
+      .operate-node{
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .ant-select-focused{
+        .ant-select-selection{
+          background-color: @butterfly-theme-color;
+          border: @butterfly-box-node-border-hover;
+          box-shadow:0 0 2px @butterfly-primary-color;
+        }
+      }
+      .ant-select-enabled{
+        .ant-select-selection{
+          background-color: @butterfly-theme-color;
+          color:@butterfly-normal-font-color;
+        }
+      }
+      .ant-btn{
+        background-color: @butterfly-theme-color;
+        color:@butterfly-normal-font-color;
+        width: 90%;
+        margin-left: 5%;
+      }
+      .ant-btn:hover,.ant-btn:focus,.ant-select-selection:hover{
+        border: @butterfly-box-node-border-hover;
+        color: @butterfly-primary-color;
+      }
+      .ant-slider{
+        .ant-slider-track{
+          background-color: @butterfly-primary-color;
+        }
+        .ant-slider-handle{
+          border:2px solid @butterfly-primary-color;
+        }
+      }
+    }
+  }
+
+  .operate-bar-prop {
+    //display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index: 999;
+    box-shadow:@butterfly-box-shadow;
+    border:@butterfly-box-border;
+    border-radius: 4px;
+    padding: 10px;
+    width: 250px;
+    background-color: @butterfly-theme-color;
+    color:@butterfly-normal-font-color;
+    .operate-bar-title{
+      height: 30px;
+      width: 100%;
+      line-height: 30px;
+      text-align: center;
+      background-color: @butterfly-primary-color;
+      color: @butterfly-overlay-font-color;
+      margin-bottom: 10px;
+    }
+    .operate-item{
+      margin-bottom: 10px;
+      .operate-node{
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .ant-select-focused{
+        .ant-select-selection{
+          background-color: @butterfly-theme-color;
+          border: @butterfly-box-node-border-hover;
+          box-shadow:0 0 2px @butterfly-primary-color;
+        }
+      }
+      .ant-select-enabled{
+        .ant-select-selection{
+          background-color: @butterfly-theme-color;
+          color:@butterfly-normal-font-color;
+        }
+      }
+      input{
+        //width: 90%;
+        margin-left: 2%;
+      }
+    }
+  }
+
+}
