@@ -23,6 +23,11 @@
             <artifactId>spas-flow-sdk</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.candao.spas</groupId>
+            <artifactId>spas-flow-json</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

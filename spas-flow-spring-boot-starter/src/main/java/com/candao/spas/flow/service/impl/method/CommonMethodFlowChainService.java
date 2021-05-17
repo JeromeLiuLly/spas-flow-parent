@@ -6,16 +6,13 @@ import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowStatus;
 import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
-import com.candao.spas.flow.core.utils.SpringContextUtil;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sdk.service.IService;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
+import com.candao.spas.flow.sdk.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 通用化Method,本地方法调用
@@ -59,7 +56,11 @@ public class CommonMethodFlowChainService implements IService {
 
             // 判断方法返回参数,覆盖旧output
             if (returnObj != null){
-                output.setData(returnObj);
+                if (returnObj.getClass().isAssignableFrom(ResponseFlowDataVo.class)){
+                    BeanUtils.copyProperties(returnObj,output);
+                }else {
+                    output.setData(returnObj);
+                }
             }
 
             log.info("通用化Method,出参内容:" + EasyJsonUtils.toJsonString(output.getData()));

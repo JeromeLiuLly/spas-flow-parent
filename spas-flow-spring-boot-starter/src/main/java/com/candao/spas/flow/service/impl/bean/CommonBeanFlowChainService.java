@@ -6,11 +6,14 @@ import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowStatus;
 import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sdk.service.IService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 通用化Bean对象装填
@@ -42,7 +45,7 @@ public class CommonBeanFlowChainService implements IService {
 
             log.info("通用化Bean,出参内容:" + outputJson);
 
-            Object o = EasyJsonUtils.toJavaObject(outputJson,Object.class);
+            Map o = EasyJsonUtils.toJavaObject(outputJson, HashMap.class);
             output.setData(o);
 
             output.setResponseStatus(ResponseFlowStatus.SUCCESS);

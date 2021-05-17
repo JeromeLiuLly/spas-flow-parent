@@ -4,18 +4,16 @@ import com.candao.spas.flow.core.constants.ChainConstants;
 import com.candao.spas.flow.core.model.enums.NodeParserEnum;
 import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
-import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
 import com.googlecode.aviator.AviatorEvaluator;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /***
  * 定义执行节点的方法
@@ -126,7 +124,21 @@ public interface IService<T,R> extends Serializable {
                 if (objData.getClass().isAssignableFrom(String.class)){
                     objData = EasyJsonUtils.toJavaObject(objData,Map.class);
                 }
-                newObject = EasyJsonUtils.toJavaObject(objData,newObject.getClass());
+
+                if (newObject.getClass().isAssignableFrom(RequestFlowDataVo.class)){
+                    RequestFlowDataVo requestFlowDataVo= (RequestFlowDataVo) newObject;
+                    /*if (objData.getClass().isAssignableFrom(LinkedHashMap.class)){
+                        String tempObjectString = EasyJsonUtils.toJsonString(objData);
+                        Object o = EasyJsonUtils.toJavaObject(tempObjectString,Object.class);
+                        requestFlowDataVo.setData(o);
+                    }else{
+                        requestFlowDataVo.setData(objData);
+                    }*/
+                    requestFlowDataVo.setData(objData);
+                    return requestFlowDataVo;
+                }else {
+                    newObject = EasyJsonUtils.toJavaObject(objData, newObject.getClass());
+                }
                 return newObject;
             } else {
                 Map<String,Object> param = EasyJsonUtils.toJavaObject(objData,Map.class);

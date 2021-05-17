@@ -13,6 +13,7 @@ import com.candao.spas.flow.sdk.utils.AsynExcutor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,12 +49,10 @@ public class FlowParserHandler {
     public void execNode(String flowId, Node node, Object requestDataVo, Map<String, Node> nodeMap, ResponseFlowDataVo responseDataVo){
         // 获取节点类型
         String type = node.getNodeType();
-
         //  设置工作流链路
         NodeParser nodeInstance = NodeComponentFactory.getNodeInstance(type);
-        nodeInstance.setNodeMap(nodeMap);
-
         try {
+            nodeInstance.setNodeMap(nodeMap);
             // 执行 handle函数
             doHandle(flowId,node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
 
@@ -66,6 +65,12 @@ public class FlowParserHandler {
                 doRollback(flowId,node,requestDataVo,responseDataVo,nodeInstance);
             }
         } catch (Exception e){
+            if (e instanceof  NullPointerException){
+                responseDataVo.setMsg("对象空指针异常");
+            }else {
+                responseDataVo.setMsg(e.getMessage());
+            }
+            responseDataVo.setResponseStatus(ResponseFlowStatus.FAIL);
             e.printStackTrace();
         }finally {
             try {
@@ -107,19 +112,29 @@ public class FlowParserHandler {
                 try{
                     nodeInstance.parserNode(flowId,node, requestDataVo,responseDataVo, methodParserEnum);
                     break;
-                }catch (RuntimeException e){
+                }catch (Exception e){
                     e.printStackTrace();
+                    String errorMsg;
+
+                    // 断言异常的类型,获取异常信息内容
+                    if (e instanceof UndeclaredThrowableException){
+                        errorMsg = ((UndeclaredThrowableException) e).getUndeclaredThrowable().getMessage();
+                        errorMsg = errorMsg != null ? errorMsg :((UndeclaredThrowableException)(((UndeclaredThrowableException) e).getUndeclaredThrowable().getCause())).getUndeclaredThrowable().getMessage();
+                    } else {
+                        errorMsg = e.getMessage();
+                    }
+
                     if (retryTimeindex == 0) {
-                        log.error(e.getMessage());
+                        log.error(errorMsg);
                     }else{
-                        log.error("异常重试：[第" + doNum++ + "次数]," + e.getMessage());
+                        log.error("异常重试：[第" + doNum++ + "次数]," + errorMsg);
                     }
                     if (isSetResultCode){
                         if (responseDataVo.success()){
                             responseDataVo.setStatus(ResponseFlowStatus.SUCCESS_BREAK.getStatus());
                         }
                     }
-                    responseDataVo.setMsg("system error occor:");
+                    responseDataVo.setMsg(errorMsg);
                     if (retryTimeindex <= retryTime - 1) {
                         responseDataVo.setStatus(oldCode);
                     }

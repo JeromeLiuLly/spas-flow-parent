@@ -7,11 +7,11 @@ import com.candao.spas.flow.core.model.req.RequestFlowDataVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.vo.Node;
 import com.candao.spas.flow.core.model.vo.TransferEventModel;
-import com.candao.spas.flow.core.utils.ClassUtil;
 import com.candao.spas.flow.redis.handler.DataUtil;
 import com.candao.spas.flow.sdk.mapper.TransferConfigMapper;
 import com.candao.spas.flow.sdk.service.IService;
-import com.candao.spas.flow.core.utils.SpringContextUtil;
+import com.candao.spas.flow.sdk.utils.ClassUtil;
+import com.candao.spas.flow.sdk.utils.SpringContextUtil;
 import org.springframework.beans.BeanUtils;
 import java.util.Map;
 
@@ -30,17 +30,13 @@ public interface NodeParser<T,R> {
 
         // 根据flowId,nodeId ,加载事件类型模型对象,排除 Begin、End、Subflow、Condition 节点
         if (!NodeParserEnum.returnCollectionList().contains(node.getNodeType())) {
-
             String redisKey = "flow:"+flowId+":"+node.getNodeId();
+            // 优先走Redis,再走DB
             TransferEventVo transferEventVo = DataUtil.getDataFromRedisOrDataGeter(redisKey,TransferEventVo.class,()->{
                 TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
                 TransferEventVo transfer = transferConfigMapper.getTransferById(flowId, node.getNodeId());
                 return transfer;
             });
-
-            // 优先走Redis ==> DB
-            //TransferConfigMapper transferConfigMapper = (TransferConfigMapper) SpringContextUtil.getBean("transferConfigMapper");
-            //TransferEventVo transferEventVo = transferConfigMapper.getTransferById(flowId, node.getNodeId());
 
             TransferEventModel transferEventModel = new TransferEventModel();
             BeanUtils.copyProperties(transferEventVo, transferEventModel);
@@ -75,10 +71,10 @@ public interface NodeParser<T,R> {
      * @param methodParserEnum 执行方法类型
      * */
     default void invokeMethod(String flowId,Node node, T input, ResponseFlowDataVo<R> output, MethodParserEnum methodParserEnum){
-        RequestFlowDataVo request = initInput(flowId,node, input);
+        RequestFlowDataVo request = initInput(flowId, node, input);
         String component = node.getComponent();
-        IService service  = (IService) SpringContextUtil.getBean(component);
-        ClassUtil.methodInvoke(service,methodParserEnum.getValue(),request,output);
+        IService service = (IService) SpringContextUtil.getBean(component);
+        ClassUtil.methodInvoke(service, methodParserEnum.getValue(), request, output);
     }
 
 

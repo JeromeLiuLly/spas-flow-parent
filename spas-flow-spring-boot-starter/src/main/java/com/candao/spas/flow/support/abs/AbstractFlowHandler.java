@@ -1,8 +1,8 @@
 package com.candao.spas.flow.support.abs;
 
-import com.candao.spas.flow.core.exception.FlowException;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
+import com.candao.spas.flow.sdk.exception.FlowException;
 import com.candao.spas.flow.sdk.parseing.FlowParser;
 import com.candao.spas.flow.sdk.parses.IFlowHandler;
 

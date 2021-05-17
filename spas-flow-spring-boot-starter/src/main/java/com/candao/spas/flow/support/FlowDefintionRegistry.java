@@ -3,7 +3,10 @@ package com.candao.spas.flow.support;
 import com.candao.spas.flow.core.model.vo.FlowDefintion;
 import java.util.Map;
 
-
+/**
+ * yml > database > apollo
+ *
+ * */
 public interface FlowDefintionRegistry {
 
     /**

@@ -1,6 +1,6 @@
 package com.candao.spas.flow.mysql.configure;
 
-import com.candao.spas.flow.core.utils.EasyJsonUtils;
+import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.mysql.bean.RouteDataSourceConfig;
 import com.candao.spas.flow.mysql.bean.RouteDataSourceMatcher;
 import lombok.extern.slf4j.Slf4j;
