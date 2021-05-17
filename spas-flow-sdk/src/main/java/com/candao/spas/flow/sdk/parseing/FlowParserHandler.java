@@ -49,12 +49,10 @@ public class FlowParserHandler {
     public void execNode(String flowId, Node node, Object requestDataVo, Map<String, Node> nodeMap, ResponseFlowDataVo responseDataVo){
         // 获取节点类型
         String type = node.getNodeType();
-
         //  设置工作流链路
         NodeParser nodeInstance = NodeComponentFactory.getNodeInstance(type);
-        nodeInstance.setNodeMap(nodeMap);
-
         try {
+            nodeInstance.setNodeMap(nodeMap);
             // 执行 handle函数
             doHandle(flowId,node, requestDataVo, nodeMap, responseDataVo, nodeInstance);
 
@@ -67,6 +65,12 @@ public class FlowParserHandler {
                 doRollback(flowId,node,requestDataVo,responseDataVo,nodeInstance);
             }
         } catch (Exception e){
+            if (e instanceof  NullPointerException){
+                responseDataVo.setMsg("对象空指针异常");
+            }else {
+                responseDataVo.setMsg(e.getMessage());
+            }
+            responseDataVo.setResponseStatus(ResponseFlowStatus.FAIL);
             e.printStackTrace();
         }finally {
             try {

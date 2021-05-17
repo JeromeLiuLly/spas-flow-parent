@@ -9,16 +9,19 @@ import com.candao.spas.flow.support.FlowDefintionRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.YamlMapFactoryBean;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Order(1)
 @Component
 public class YmlFlowDefintionRegistry implements FlowDefintionRegistry {
 
@@ -36,18 +39,26 @@ public class YmlFlowDefintionRegistry implements FlowDefintionRegistry {
      * @return
      * @throws Exception
      */
-    public Map<String, FlowDefintion> registryModel() throws Exception {
+    private Map<String, FlowDefintion> registryModel() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources(ChainConstants.CLASSPATH_FLOW);
         Map<String, FlowDefintion> flowMap = new HashMap<>();
-        Arrays.stream(resources).forEach(resource->{
-            YamlMapFactoryBean yamlMapFactoryBean = new YamlMapFactoryBean();
-            yamlMapFactoryBean.setResources(resource);
-            yamlMapFactoryBean.afterPropertiesSet();
-            Map<String, Object> object = yamlMapFactoryBean.getObject();
-            YmlFlowDto flow = EasyJsonUtils.toJavaObject(object, YmlFlowDto.class);
-            flowMap.put(flow.getFlowId(),buildFlowDefintition(flow));
-        });
+        try {
+            Resource[] resources = resolver.getResources(ChainConstants.CLASSPATH_FLOW);
+            Arrays.stream(resources).forEach(resource -> {
+                YamlMapFactoryBean yamlMapFactoryBean = new YamlMapFactoryBean();
+                yamlMapFactoryBean.setResources(resource);
+                yamlMapFactoryBean.afterPropertiesSet();
+                Map<String, Object> object = yamlMapFactoryBean.getObject();
+                YmlFlowDto flow = EasyJsonUtils.toJavaObject(object, YmlFlowDto.class);
+                flowMap.put(flow.getFlowId(), buildFlowDefintition(flow));
+            });
+        }catch (Exception e){
+            if (e instanceof FileNotFoundException){
+                log.warn(e.getMessage());
+            }else {
+                e.printStackTrace();
+            }
+        }
         return flowMap;
     }
 

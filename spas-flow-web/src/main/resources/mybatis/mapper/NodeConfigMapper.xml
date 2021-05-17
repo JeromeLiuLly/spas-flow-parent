@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.candao.spas.flow.sdk.mapper.NodeConfigMapper">
+
+    <resultMap id="transfer" type="com.candao.spas.flow.core.model.db.NodeEventVo">
+        <result column="flowId" property="flowId"/>
+        <result column="nodeId" property="nodeId"/>
+        <result column="label" property="label"/>
+        <result column="text" property="text"/>
+        <result column="shape" property="shape"/>
+        <result column="className" property="className"/>
+        <result column="iconType" property="iconType"/>
+        <result column="color" property="color"/>
+        <result column="top" property="top"/>
+        <result column="leftPoint" property="leftPoint"/>
+        <result column="endpoints" property="endpoints" typeHandler="com.candao.spas.flow.sdk.typehandle.JsonTypeHandler"/>
+        <result column="Class" property="Class"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="findNodesById" resultType="com.candao.spas.flow.core.model.db.NodeEventVo">
+        SELECT
+        *
+        FROM node_event_config as o
+        <where>
+            1=1
+            <if test="flowId != null and flowId != ''">
+                AND o.flowId = #{flowId}
+            </if>
+        </where>
+    </select>
+</mapper>

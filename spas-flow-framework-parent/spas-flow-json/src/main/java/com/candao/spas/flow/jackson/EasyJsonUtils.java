@@ -4,10 +4,12 @@ import com.jn.easyjson.core.JSON;
 import com.jn.easyjson.core.JsonTreeNode;
 import com.jn.easyjson.jackson.JacksonJSONBuilder;
 import com.jn.langx.util.reflect.type.Types;
+import jdk.internal.org.objectweb.asm.TypeReference;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -101,5 +103,10 @@ public final class EasyJsonUtils {
             return null;
         Type type = Types.getParameterizedType(classofCollection, classOfT);
         return getInstance().json.fromJson(json, type);
+    }
+
+    public static void main(String[] args) {
+        String json = "{\"projectName\":\"1140\",\"teacher\":{\"number\":\"T1140120101\",\"userName\":\"张小小\"},\"teachersSN\":[\"T1140120102\",\"T1140120103\",\"T1140120104\"],\"studentCount\":142}";
+        System.out.println(EasyJsonUtils.toJavaObject(json,Object.class).getClass());
     }
 }

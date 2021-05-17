@@ -16,43 +16,27 @@ import javax.annotation.Resource;
 @Service
 public class FlowService {
 
-    @Resource
-    private FlowDefintitionFactory flowDefintitionFactory;
-
-    public ResponseFlowDataVo test(){
-        FlowDefintion defintition = flowDefintitionFactory.getFlowDefintion("chain");
-        FlowParser flowParser = new FlowParser(defintition);
-
-        InitClass init = new InitClass();
-        Project project = init.initProject();
-        ResponseFlowDataVo responseFlowDataVo = null;
-        try {
-            responseFlowDataVo = flowParser.execute(project);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return responseFlowDataVo;
-    }
-
     public void commonMethod(){
         log.info("我是Spring托管-Method,无参,返回值:void");
     }
 
-    public void commonMethod(RequestFlowDataVo input,ResponseFlowDataVo output){
-        log.info("我是Spring托管-Method,带入参,返回值:void");
-        TempProject project = EasyJsonUtils.toJavaObject(output.getData(),TempProject.class);
-        //project.setProjectName("Spring托管-Method_"+project.getProjectName());
-        project.setProjectName("dee600f6dd1c2e9d");
-        project.setStudentCount(1027);
+    public ResponseFlowDataVo commonMethod(RequestFlowDataVo input,ResponseFlowDataVo output){
+        log.info("我是Spring托管-Method,带入参,返回值:ResponseFlowDataVo");
+        TempProject project = EasyJsonUtils.toJavaObject(input.getData(),TempProject.class);
+        project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        //project.setProjectName("dee600f6dd1c2e9d");
+        //project.setStudentCount(1027);
         output.setData(project);
+
+        return  output;
     }
 
     public Object commonMethod2(RequestFlowDataVo input,ResponseFlowDataVo output){
         log.info("我是Spring托管-Method,带入参,返回值:obj");
-        TempProject project = EasyJsonUtils.toJavaObject(output.getData(),TempProject.class);
-        //project.setProjectName("Spring托管-Method_"+project.getProjectName());
-        project.setProjectName("dee600f6dd1c2e9d");
-        project.setStudentCount(1027);
+        TempProject project = EasyJsonUtils.toJavaObject(input.getData(),TempProject.class);
+        project.setProjectName("Spring托管-Method_"+project.getProjectName());
+        //project.setProjectName("dee600f6dd1c2e9d");
+        //project.setStudentCount(1027);
         return project;
     }
 }

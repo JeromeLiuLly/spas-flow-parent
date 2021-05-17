@@ -60,24 +60,24 @@
         </where>
     </select>
 
-    <select id="findTransfers" resultMap="transfer">
-        SELECT
-        *
-        FROM transfer_event_config as o
+    <update id="updateTransferVersionAndStatus">
+        UPDATE transfer_event_config
+        <set>
+            <if test="status == 0">
+                status = #{status},
+            </if>
+            <if test="version != null and version != ''">
+                version = #{version},
+            </if>
+        </set>
         <where>
-            o.status = 1
+            1=1
+            <if test="flowId != null and flowId != ''">
+                AND status = 1
+                AND flowId = #{flowId}
+            </if>
         </where>
-    </select>
-
-    <select id="findTransfersGroupByFlowId" resultType="java.lang.String">
-        SELECT
-        o.flowId
-        FROM transfer_event_config as o
-        <where>
-            o.status = 1
-        </where>
-        GROUP BY o.flowId
-    </select>
+    </update>
 
     <insert id="saveTransfer" parameterType="com.candao.spas.flow.core.model.db.TransferEventVo">
         INSERT INTO transfer_event_config ( flowId,nodeId,nodeName,nodeType,component,front,next,eventName,description,input,output,url,

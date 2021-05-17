@@ -26,4 +26,23 @@ public interface TransferConfigMapper extends Mapper<TransferEventVo>, MySqlMapp
      * */
     public List<TransferEventVo> findTransferById(@Param("flowId") String flowId);
 
+    /**
+     * 获取事件模型列表
+     *
+     *
+     * */
+    public List<TransferEventVo> findTransfers();
+
+    /**
+     * 获取事件模型列表
+     *
+     *
+     * */
+    public List<String> findTransfersGroupByFlowId();
+
+    public Integer saveTransfer(@Param("vo") TransferEventVo transferEventVo);
+
+    public Integer saveTransfers(@Param("vos") List<TransferEventVo> transferEventVos);
+
+    public Integer updateTransferVersionAndStatus(@Param("flowId")String flowId, @Param("version")String version, @Param("status")Integer status);
 }
