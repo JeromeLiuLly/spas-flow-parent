@@ -32,11 +32,11 @@ public class DemoFlowService {
     private TransferConfigMapper transferConfigMapper;
 
     public ResponseFlowDataVo test(){
-        FlowDefintion defintition = flowDefintitionFactory.getFlowDefintion("chain");
+        FlowDefintion defintition = flowDefintitionFactory.getFlowDefintion("flow");
 
         log.info(EasyJsonUtils.toJsonString(defintition));
 
-        test("flow");
+        //test("flow");
 
         FlowParser flowParser = new FlowParser(defintition);
 
@@ -51,34 +51,14 @@ public class DemoFlowService {
         return responseFlowDataVo;
     }
 
-    public ResponseFlowDataVo test(String flowId){
+    public ResponseFlowDataVo test(String flowId,Project project){
 
         FlowDefintion defintition = flowDefintitionFactory.getFlowDefintion(flowId);
-        /*List<TransferEventVo> transferEventVos =  transferConfigMapper.findTransferById(flowId);
-
-        TransferEventVo root = transferEventVos.stream().filter(transferEventVo -> Objects.equals(transferEventVo.getFront(), NodeParserEnum.ROOT.getValue())).findFirst().get();
-
-        Map<String,Node> param = transferEventVos.stream().map(transferEventVo -> {
-            Node node = new Node();
-            BeanUtils.copyProperties(transferEventVo,node);
-            return node;
-        }).collect(Collectors.toMap(w->w.getNodeId(),w->w));
-
-
-
-        FlowDefintion defintition = new FlowDefintion();
-        defintition.setFlowId(flowId);
-        defintition.setDesc("可视化业务编排");
-        defintition.setFlowName(flowId);
-        defintition.setStartNodeId(root.getNodeId());
-        defintition.setNodeMap(param);
-
-        log.info(EasyJsonUtils.toJsonString(defintition));*/
 
         FlowParser flowParser = new FlowParser(defintition);
 
-        InitClass init = new InitClass();
-        Project project = init.initProject();
+        //InitClass init = new InitClass();
+        //Project project = init.initProject();
         ResponseFlowDataVo responseFlowDataVo = null;
         try {
             responseFlowDataVo = flowParser.execute(project);

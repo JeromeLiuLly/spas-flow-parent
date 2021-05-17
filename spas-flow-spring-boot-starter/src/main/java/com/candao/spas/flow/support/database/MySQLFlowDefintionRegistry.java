@@ -42,24 +42,28 @@ public class MySQLFlowDefintionRegistry implements FlowDefintionRegistry {
      * @throws Exception
      */
     private Map<String, FlowDefintion> registryModel() throws Exception {
-
-        List<String> list = transferConfigMapper.findTransfersGroupByFlowId();
-        Map<String,FlowDefintion> flowMap = list.stream().map(value -> {
-            List<TransferEventVo> transferEventVos =  transferConfigMapper.findTransferById(value);
-            TransferEventVo root = transferEventVos.stream().filter(transferEventVo -> Objects.equals(transferEventVo.getFront(), NodeParserEnum.ROOT.getValue())).findFirst().get();
-            Map<String,Node> param = transferEventVos.stream().map(transferEventVo -> {
-                Node node = new Node();
-                BeanUtils.copyProperties(transferEventVo,node);
-                return node;
-            }).collect(Collectors.toMap(w->w.getNodeId(), w->w));
-            FlowDefintion defintition = new FlowDefintion();
-            defintition.setFlowId(value);
-            defintition.setDesc("可视化业务编排_"+value);
-            defintition.setFlowName(value);
-            defintition.setStartNodeId(root.getNodeId());
-            defintition.setNodeMap(param);
-            return defintition;
-        }).collect(Collectors.toMap(w->w.getFlowId(),w->w));
-        return flowMap;
+        try{
+            List<String> list = transferConfigMapper.findTransfersGroupByFlowId();
+            Map<String,FlowDefintion> flowMap = list.stream().map(value -> {
+                List<TransferEventVo> transferEventVos =  transferConfigMapper.findTransferById(value);
+                TransferEventVo root = transferEventVos.stream().filter(transferEventVo -> Objects.equals(transferEventVo.getFront(), NodeParserEnum.ROOT.getValue())).findFirst().get();
+                Map<String,Node> param = transferEventVos.stream().map(transferEventVo -> {
+                    Node node = new Node();
+                    BeanUtils.copyProperties(transferEventVo,node);
+                    return node;
+                }).collect(Collectors.toMap(w->w.getNodeId(), w->w));
+                FlowDefintion defintition = new FlowDefintion();
+                defintition.setFlowId(value);
+                defintition.setDesc("可视化业务编排_"+value);
+                defintition.setFlowName(value);
+                defintition.setStartNodeId(root.getNodeId());
+                defintition.setNodeMap(param);
+                return defintition;
+            }).collect(Collectors.toMap(w->w.getFlowId(),w->w));
+            return flowMap;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 }

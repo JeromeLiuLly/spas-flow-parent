@@ -4,6 +4,7 @@ import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.utils.StringUtil;
 import com.candao.spas.flow.jackson.EasyJsonUtils;
 import com.candao.spas.flow.sample.dubbo.api.DubboSampleProvider;
+import com.candao.spas.flow.sample.flow.bean.Project;
 import com.candao.spas.flow.sample.flow.service.DemoFlowService;
 import com.candao.spas.flow.sample.flow.service.FlowService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,10 @@ public class FlowChainController {
     }
 
     @PostMapping(value = "/{flowId}")
-    public ResponseFlowDataVo test(@PathVariable(name = "flowId") String flowId){
+    public ResponseFlowDataVo test(@PathVariable(name = "flowId") String flowId,@RequestBody Project project){
         if (StringUtil.isNullOrBlank(flowId)){
             return ResponseFlowDataVo.generateFail("flowId 工作流id 不能为空");
         }
-        return demoFlowService.test(flowId);
+        return demoFlowService.test(flowId,project);
     }
 }

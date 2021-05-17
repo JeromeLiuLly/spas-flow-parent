@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -35,6 +37,6 @@ public class ApolloFlowDefintionRegistry implements FlowDefintionRegistry {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new HashMap<>();
     }
 }

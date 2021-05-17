@@ -58,12 +58,34 @@
     transform: translateX(-50%) translateY(-50%);
   }
 
+  .home-table{
+    .content {
+      color:@butterfly-normal-font-color;
+      padding: 10px;
+      border: @butterfly-box-border;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+      .info{
+        .ant-input-sm {
+          height: 29px;
+          background-color: @butterfly-theme-color;
+        }
+      }
+      .history {
+        padding: 5px 0;
+        font-size: 12px;
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+      }
+    }
+  }
+
 
   .operate-bar{
     position: absolute;
     top: 60px;
     right: 20px;
-    left: 10px;
+    left:210px;
     height: 92%;
     z-index: 999;
     width: 250px;
