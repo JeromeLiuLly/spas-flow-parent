@@ -9,7 +9,7 @@ import {Button, Modal, Select, Slider,Input,Tree,Form} from "antd";
 import Node from "./node";
 import Axios from 'axios';
 import Edge from "./edge";
-import BaseEdge from "../industry/edge";
+import BaseEdge from "../policy/edge";
 import BaseNode from "../entity-relationship/node";
 import Modals from "antd/es/modal";
 
