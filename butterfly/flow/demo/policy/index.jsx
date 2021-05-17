@@ -175,16 +175,12 @@ class Policy extends Component {
         }
     }
 
-    handleOk = e => {
-        this.setState({
-            showModalInfo: false,
-        });
-    };
-
     handleCancel = e => {
         this.setState({
             showModalInfo: false,
         });
+        this.setState({requertInput:""});
+        this.setState({responseOutput:""});
     };
 
     getUrlParams(name, str) {
@@ -635,13 +631,13 @@ class Policy extends Component {
     // 打开工作流请求模态框
     openFlowRequestModal = () =>{
         this.setState({showModalInfo:true});
-        this.setState({requertUrl:"http://127.0.0.1:9999/"});
+        this.setState({requertUrl:"http://127.0.0.1:9999/flow/"});
         this.setState({requertFlowId:this.state.flowId});
     }
 
     // 打开工作流请求模态框
     sendFlowRequest = async () =>{
-        let url = this.state.requertUrl + "flow/" + this.state.requertFlowId;
+        let url = this.state.requertUrl + this.state.requertFlowId;
         let _data = {};
         await Axios.post(url,JSON.parse(this.state.requertInput)).
         then(response=>{
