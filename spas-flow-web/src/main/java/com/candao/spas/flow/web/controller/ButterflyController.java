@@ -1,5 +1,6 @@
 package com.candao.spas.flow.web.controller;
 
+import com.candao.spas.flow.core.model.db.FlowEventVo;
 import com.candao.spas.flow.core.model.resp.ResponseFlowDataVo;
 import com.candao.spas.flow.core.utils.StringUtil;
 import com.candao.spas.flow.jackson.EasyJsonUtils;
@@ -39,4 +40,15 @@ public class ButterflyController {
     public ResponseFlowDataVo getFlows(){
         return ResponseFlowDataVo.generateSuccess(butterflyService.findFlows());
     }
+
+
+    @PostMapping(value = "/addFlow")
+    public ResponseFlowDataVo addFlow(@RequestBody FlowEventVo flowEventVo){
+        if (flowEventVo != null){
+            butterflyService.addFlow(flowEventVo);
+        }
+        return ResponseFlowDataVo.generateSuccess();
+    }
+
+
 }
