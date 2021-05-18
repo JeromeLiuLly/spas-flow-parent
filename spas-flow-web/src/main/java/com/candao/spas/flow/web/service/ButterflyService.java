@@ -128,5 +128,7 @@ public class ButterflyService {
         return flowConfigMapper.findFlows();
     }
 
-
+    public void addFlow(FlowEventVo flowEventVo) {
+        flowConfigMapper.insert(flowEventVo);
+    }
 }
